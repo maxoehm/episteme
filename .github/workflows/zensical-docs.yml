@@ -23,11 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-      - run: pip install .
-      - run: zensical build --clean
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - run: uv run zensical build --clean
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
