@@ -9,6 +9,9 @@ dependencies = [
     "episteme-studio",
 ]
 
+[tool.setuptools]
+packages = []
+
 [tool.uv.sources]
 episteme-pipeline = { workspace = true }
 epistemetrics = { workspace = true }
