@@ -1,0 +1,24 @@
+{
+  "artifact_id": "entity_TC_ABS_SPACE",
+  "identity_key": "entity_TC_ABS_SPACE",
+  "kind": "linked_entity",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 2: Entity & Local Relation Discovery",
+  "payload": {
+    "entity_id": "TC_ABS_SPACE",
+    "entity_type": "TheoreticalConstruct",
+    "canonical_name": "Absolute Space and Time",
+    "description": "Newtonian Euclidean absolute coordinate framework.",
+    "confidence": 0.95,
+    "source_chunk_ids": [
+      "chunk_phys_1"
+    ]
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epistemetrics"
+version = "0.1.0"
+description = "A Python library for epistemic and structural analysis of scientific theory graphs."
+readme = "README.md"
+authors = [
+    { name = "Max Oehmichen" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "networkx>=3.0",
+    "numpy>=1.24",
+    "pydantic>=2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=1.0",
+    "zensical>=0.0.55",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

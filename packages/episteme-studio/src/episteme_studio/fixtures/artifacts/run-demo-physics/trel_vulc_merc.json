@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_vulc_merc",
+  "identity_key": "trel_vulc_merc",
+  "kind": "theory_relation",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_vulc_merc",
+    "source_component_id": "HYP_VULCAN",
+    "relation_type": "RESOLVES_ANOMALY",
+    "target_component_id": "EV_MERCURY",
+    "weight": 0.4,
+    "confidence": 0.4,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

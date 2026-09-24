@@ -1,0 +1,1732 @@
+/* ==========================================================================
+   Zensical Custom Theme Styles - Episteme Documentation
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Page Status Badge (Content Action Bar)
+   -------------------------------------------------------------------------- */
+.md-status-badge {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.18rem 0.45rem;
+  margin-top: 0.2rem;
+  margin-left: 0.45rem;
+  margin-bottom: 0.35rem;
+  height: 1.55rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  user-select: none;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.md-status-badge .md-status-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+}
+
+.md-status-badge .md-status-badge__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.md-status-badge .md-status-badge__text {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* --- Status Badge Themes: Light Mode --- */
+/* 1. In Progress (Active work) */
+.md-status-badge--in_research,
+.md-status-badge--in_progress,
+.md-status-badge--research {
+  color: #0284c7;
+  background-color: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.25);
+}
+.md-status-badge--in_research:hover,
+.md-status-badge--in_progress:hover,
+.md-status-badge--research:hover {
+  background-color: rgba(2, 132, 199, 0.14);
+  border-color: rgba(2, 132, 199, 0.4);
+}
+
+/* 2. Needs Verification (Core complete, awaiting review/proof) */
+.md-status-badge--needs_verification,
+.md-status-badge--in_review,
+.md-status-badge--pending_verification,
+.md-status-badge--verification_needed {
+  color: #7c3aed;
+  background-color: rgba(124, 58, 237, 0.08);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+.md-status-badge--needs_verification:hover,
+.md-status-badge--in_review:hover,
+.md-status-badge--pending_verification:hover,
+.md-status-badge--verification_needed:hover {
+  background-color: rgba(124, 58, 237, 0.14);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+/* 3. Needs Revision (Review flagged issues/gaps) */
+.md-status-badge--needs_revision,
+.md-status-badge--revision_needed,
+.md-status-badge--revision {
+  color: #e11d48;
+  background-color: rgba(225, 29, 72, 0.08);
+  border-color: rgba(225, 29, 72, 0.25);
+}
+.md-status-badge--needs_revision:hover,
+.md-status-badge--revision_needed:hover,
+.md-status-badge--revision:hover {
+  background-color: rgba(225, 29, 72, 0.14);
+  border-color: rgba(225, 29, 72, 0.4);
+}
+
+/* 4. Completed (Fully verified & done) */
+.md-status-badge--completed,
+.md-status-badge--done,
+.md-status-badge--resolved {
+  color: #059669;
+  background-color: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+.md-status-badge--completed:hover,
+.md-status-badge--done:hover,
+.md-status-badge--resolved:hover {
+  background-color: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* 5. Delayed (On hold / blocked) */
+.md-status-badge--delayed,
+.md-status-badge--on_hold,
+.md-status-badge--blocked {
+  color: #d97706;
+  background-color: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.md-status-badge--delayed:hover,
+.md-status-badge--on_hold:hover,
+.md-status-badge--blocked:hover {
+  background-color: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* 6. Undetermined */
+.md-status-badge--undetermined {
+  color: #64748b;
+  background-color: rgba(100, 116, 139, 0.08);
+  border-color: rgba(100, 116, 139, 0.25);
+}
+.md-status-badge--undetermined:hover {
+  background-color: rgba(100, 116, 139, 0.14);
+  border-color: rgba(100, 116, 139, 0.4);
+}
+
+/* --- Status Badge Themes: Dark / Slate Mode --- */
+[data-md-color-scheme="slate"] .md-status-badge--in_research,
+[data-md-color-scheme="slate"] .md-status-badge--in_progress,
+[data-md-color-scheme="slate"] .md-status-badge--research {
+  color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--in_research:hover,
+[data-md-color-scheme="slate"] .md-status-badge--in_progress:hover,
+[data-md-color-scheme="slate"] .md-status-badge--research:hover {
+  background-color: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+[data-md-color-scheme="slate"] .md-status-badge--needs_verification,
+[data-md-color-scheme="slate"] .md-status-badge--in_review,
+[data-md-color-scheme="slate"] .md-status-badge--pending_verification,
+[data-md-color-scheme="slate"] .md-status-badge--verification_needed {
+  color: #a78bfa;
+  background-color: rgba(167, 139, 250, 0.12);
+  border-color: rgba(167, 139, 250, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--needs_verification:hover,
+[data-md-color-scheme="slate"] .md-status-badge--in_review:hover,
+[data-md-color-scheme="slate"] .md-status-badge--pending_verification:hover,
+[data-md-color-scheme="slate"] .md-status-badge--verification_needed:hover {
+  background-color: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.45);
+}
+
+[data-md-color-scheme="slate"] .md-status-badge--needs_revision,
+[data-md-color-scheme="slate"] .md-status-badge--revision_needed,
+[data-md-color-scheme="slate"] .md-status-badge--revision {
+  color: #fb7185;
+  background-color: rgba(251, 113, 133, 0.12);
+  border-color: rgba(251, 113, 133, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--needs_revision:hover,
+[data-md-color-scheme="slate"] .md-status-badge--revision_needed:hover,
+[data-md-color-scheme="slate"] .md-status-badge--revision:hover {
+  background-color: rgba(251, 113, 133, 0.2);
+  border-color: rgba(251, 113, 133, 0.45);
+}
+
+[data-md-color-scheme="slate"] .md-status-badge--completed,
+[data-md-color-scheme="slate"] .md-status-badge--done,
+[data-md-color-scheme="slate"] .md-status-badge--resolved {
+  color: #34d399;
+  background-color: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--completed:hover,
+[data-md-color-scheme="slate"] .md-status-badge--done:hover,
+[data-md-color-scheme="slate"] .md-status-badge--resolved:hover {
+  background-color: rgba(52, 211, 153, 0.2);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+
+[data-md-color-scheme="slate"] .md-status-badge--delayed,
+[data-md-color-scheme="slate"] .md-status-badge--on_hold,
+[data-md-color-scheme="slate"] .md-status-badge--blocked {
+  color: #fbbf24;
+  background-color: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--delayed:hover,
+[data-md-color-scheme="slate"] .md-status-badge--on_hold:hover,
+[data-md-color-scheme="slate"] .md-status-badge--blocked:hover {
+  background-color: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.45);
+}
+
+[data-md-color-scheme="slate"] .md-status-badge--undetermined {
+  color: #94a3b8;
+  background-color: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+[data-md-color-scheme="slate"] .md-status-badge--undetermined:hover {
+  background-color: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Navbar Status Icons (Subtle Tinted Colors for Overview Scanning)
+   -------------------------------------------------------------------------- */
+.md-nav__link .md-status {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 0.85rem !important;
+  height: 0.85rem !important;
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+  vertical-align: middle !important;
+  background-color: transparent !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  opacity: 0.72;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.md-nav__link:hover .md-status,
+.md-nav__link--active .md-status {
+  opacity: 1 !important;
+  transform: scale(1.08);
+}
+
+.md-nav__link .md-status svg {
+  width: 100% !important;
+  height: 100% !important;
+  fill: currentColor !important;
+}
+
+/* --- Subtle Navbar Status Colors: Light Mode --- */
+.md-status--in_research,
+.md-status--in_progress,
+.md-status--research {
+  color: #0284c7 !important;
+}
+
+.md-status--needs_verification,
+.md-status--in_review,
+.md-status--pending_verification,
+.md-status--verification_needed {
+  color: #7c3aed !important;
+}
+
+.md-status--needs_revision,
+.md-status--revision_needed,
+.md-status--revision {
+  color: #e11d48 !important;
+}
+
+.md-status--completed,
+.md-status--done,
+.md-status--resolved {
+  color: #059669 !important;
+}
+
+.md-status--delayed,
+.md-status--on_hold,
+.md-status--blocked {
+  color: #d97706 !important;
+}
+
+.md-status--undetermined {
+  color: #94a3b8 !important;
+}
+
+/* --- Subtle Navbar Status Colors: Dark / Slate Mode --- */
+[data-md-color-scheme="slate"] .md-status--in_research,
+[data-md-color-scheme="slate"] .md-status--in_progress,
+[data-md-color-scheme="slate"] .md-status--research {
+  color: #38bdf8 !important;
+}
+
+[data-md-color-scheme="slate"] .md-status--needs_verification,
+[data-md-color-scheme="slate"] .md-status--in_review,
+[data-md-color-scheme="slate"] .md-status--pending_verification,
+[data-md-color-scheme="slate"] .md-status--verification_needed {
+  color: #a78bfa !important;
+}
+
+[data-md-color-scheme="slate"] .md-status--needs_revision,
+[data-md-color-scheme="slate"] .md-status--revision_needed,
+[data-md-color-scheme="slate"] .md-status--revision {
+  color: #fb7185 !important;
+}
+
+[data-md-color-scheme="slate"] .md-status--completed,
+[data-md-color-scheme="slate"] .md-status--done,
+[data-md-color-scheme="slate"] .md-status--resolved {
+  color: #34d399 !important;
+}
+
+[data-md-color-scheme="slate"] .md-status--delayed,
+[data-md-color-scheme="slate"] .md-status--on_hold,
+[data-md-color-scheme="slate"] .md-status--blocked {
+  color: #fbbf24 !important;
+}
+
+[data-md-color-scheme="slate"] .md-status--undetermined {
+  color: #94a3b8 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Responsive adjustments for mobile
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 45em) {
+  .md-status-badge {
+    float: none;
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+    display: inline-flex;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Antigravity-Inspired Layout Dividers (Header & Sidebar Lines)
+   -------------------------------------------------------------------------- */
+
+:root {
+  --zen-divider-color: rgba(0, 0, 0, 0.08);
+  --zen-tree-line-color: rgba(0, 0, 0, 0.09);
+  --zen-pill-bg-active: rgba(26, 115, 232, 0.08);
+  --zen-pill-text-active: #1a73e8;
+  --zen-pill-bg-hover: rgba(0, 0, 0, 0.04);
+  --zen-text-parent: #1f2937;
+  --zen-text-link: #4b5563;
+  --zen-text-link-hover: #111827;
+}
+
+[data-md-color-scheme="slate"] {
+  --zen-divider-color: rgba(255, 255, 255, 0.09);
+  --zen-tree-line-color: rgba(255, 255, 255, 0.12);
+  --zen-pill-bg-active: rgba(66, 133, 244, 0.16);
+  --zen-pill-text-active: #8ab4f8;
+  --zen-pill-bg-hover: rgba(255, 255, 255, 0.06);
+  --zen-text-parent: #f3f4f6;
+  --zen-text-link: #9ca3af;
+  --zen-text-link-hover: #ffffff;
+}
+
+/* --- Header & Navigation Tabs Horizontal Dividers --- */
+.md-header {
+  border-bottom: 1px solid var(--zen-divider-color) !important;
+  box-shadow: none !important;
+}
+
+.md-header--shadow {
+  box-shadow: none !important;
+}
+
+.md-tabs {
+  border-bottom: 1px solid var(--zen-divider-color) !important;
+  box-shadow: none !important;
+}
+
+.md-header--lifted .md-tabs {
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Footer separator */
+.md-footer {
+  border-top: 1px solid var(--zen-divider-color) !important;
+}
+
+/* --- Main Content Area & Layout Alignment --- */
+/* Antigravity-Style Wide Layout:
+   - Container max-width (up to 96rem) centered gracefully on ultra-wide screens
+   - Sidebars have comfortable spacing to the window borders (padding: 0 2rem)
+*/
+.md-grid {
+  max-width: 96rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.md-main__inner.md-grid {
+  margin-top: 0 !important;
+}
+
+/* Content Plane:
+   - Content div remains spacious between the sidebars
+   - Text is constrained to an optimal, elegant reading width (max-width: 54rem)
+   - Generous spacing (padding: 0 3rem) to the vertical divider lines
+*/
+.md-content__inner,
+[dir=ltr] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner,
+[dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+  max-width: 48rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+  padding-top: 1.2rem;
+}
+
+.md-main {
+  min-height: calc(100vh - 4.8rem);
+}
+
+/* Responsive adjustments for mobile and tablet */
+@media screen and (max-width: 60em) {
+  .md-grid {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+
+  .md-content__inner,
+  [dir=ltr] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner,
+  [dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+    max-width: 100% !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+}
+
+/* --- Sidebar Vertical Dividers (Desktop) --- */
+/* Left Primary Navigation Sidebar Divider */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary:not([hidden]) {
+    padding: 0 !important;
+    width: 20.5rem !important;
+  }
+
+  .md-sidebar--primary:not([hidden]) .md-sidebar__scrollwrap {
+    border-inline-end: 1px solid var(--zen-divider-color) !important;
+  }
+
+  .md-sidebar--primary:not([hidden]) .md-sidebar__inner {
+    padding-top: 1rem;
+    padding-bottom: 1.2rem;
+    padding-inline-end: 0.6rem;
+    padding-inline-start: 0.2rem;
+  }
+}
+
+/* Right Secondary (TOC) Sidebar Divider */
+@media screen and (min-width: 60em) {
+  .md-sidebar--secondary:not([hidden]) {
+    padding: 0 !important;
+  }
+
+  .md-sidebar--secondary:not([hidden]) .md-sidebar__scrollwrap {
+    border-inline-start: 1px solid var(--zen-divider-color) !important;
+  }
+
+  .md-sidebar--secondary:not([hidden]) .md-sidebar__inner {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    padding-inline-start: 0.8rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Antigravity-Inspired Navigation Refinements
+   -------------------------------------------------------------------------- */
+
+/* --- Breadcrumbs Navigation (Content Area) --- */
+.md-breadcrumbs {
+  margin-left: -2em;
+  margin-bottom: 0.8rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.md-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.35rem;
+}
+
+.md-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-breadcrumbs__link {
+  color: var(--md-default-fg-color--light);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.md-breadcrumbs__link:hover {
+  color: var(--md-accent-fg-color);
+  text-decoration: underline;
+}
+
+.md-breadcrumbs__separator {
+  opacity: 0.45;
+  font-size: 0.78rem;
+  user-select: none;
+}
+
+.md-breadcrumbs__text {
+  color: var(--md-default-fg-color--light);
+}
+
+.md-breadcrumbs__current {
+  color: var(--md-default-fg-color--lighter);
+  font-weight: 500;
+}
+
+/* --- Primary Sidebar Category / Section Title (Top of Sidebar) --- */
+@media screen and (min-width: 76.25em) {
+  /* Hide the redundant outer tab item link/label in the primary sidebar */
+  .md-nav--lifted > .md-nav__list > .md-nav__item > .md-nav__link {
+    display: none !important;
+  }
+
+  /* Single clean Category / Product Header at top of sidebar (matching Antigravity 2.0) */
+  .md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav > .md-nav__title {
+    display: flex !important;
+    align-items: center;
+    font-size: 0.88rem !important;
+    font-weight: 550 !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+    color: var(--zen-text-parent) !important;
+    padding: 0.15rem 0.5rem 0.45rem 0.5rem !important;
+    margin: 0 0 0.35rem 0 !important;
+    border-bottom: none !important;
+    pointer-events: none;
+    cursor: default;
+    background: transparent !important;
+    line-height: 1.35;
+  }
+
+  .md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav > .md-nav__title .md-nav__icon {
+    display: none !important;
+  }
+}
+
+/* Hide table-of-contents toggle labels in primary sidebar (prevents duplicate page links) */
+.md-sidebar--primary label.md-nav__link[for="__toc"] {
+  display: none !important;
+}
+
+/* --- Antigravity Vertical Hierarchy Guide Bar (Tree Lines) --- */
+
+/* 1. Vertical guide line for all nested subpage lists (level 2, level 3, level 4...) */
+.md-sidebar--primary .md-nav[data-md-level="2"] > .md-nav__list,
+.md-sidebar--primary .md-nav[data-md-level="3"] > .md-nav__list,
+.md-sidebar--primary .md-nav[data-md-level="4"] > .md-nav__list,
+.md-sidebar--primary .md-nav[data-md-level="5"] > .md-nav__list {
+  position: relative;
+  margin-left: 0.6rem !important;
+  padding-left: 0.4rem !important;
+  border-left: 1.5px solid var(--zen-tree-line-color) !important;
+  margin-top: 0.1rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* 2. Vertical guide line for direct leaf items under the category at level 1 */
+.md-sidebar--primary .md-nav[data-md-level="1"] > .md-nav__list > .md-nav__item:not(.md-nav__item--nested) {
+  position: relative;
+  margin-left: 0.6rem;
+  padding-left: 0.4rem;
+}
+
+.md-sidebar--primary .md-nav[data-md-level="1"] > .md-nav__list > .md-nav__item:not(.md-nav__item--nested)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background-color: var(--zen-tree-line-color);
+}
+
+/* --- Expandable Parent Sections (like Settings >, Customizations >) --- */
+.md-sidebar--primary .md-nav__item--nested > .md-nav__link {
+  font-size: 0.76rem !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 1.35 !important;
+  color: var(--zen-text-parent) !important;
+  padding: 0.28rem 0.5rem !important;
+  margin: 0.35rem 0.1rem 0.1rem 0.1rem !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.md-sidebar--primary .md-nav__item--nested > .md-nav__link:hover {
+  background-color: var(--zen-pill-bg-hover) !important;
+  color: var(--zen-text-link-hover) !important;
+}
+
+/* Parent Section Heading Chevrons */
+.md-sidebar--primary .md-nav__item--nested > .md-nav__link .md-nav__icon {
+  margin-left: auto !important;
+  width: 0.82rem !important;
+  height: 0.82rem !important;
+  opacity: 0.5;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+}
+
+.md-sidebar--primary .md-nav__item--nested > .md-nav__link:hover .md-nav__icon {
+  opacity: 0.85;
+}
+
+/* Expand state: chevron smoothly rotates 90 degrees down */
+.md-sidebar--primary .md-nav__item--nested > .md-toggle:checked ~ .md-nav__link .md-nav__icon {
+  transform: rotate(90deg) !important;
+}
+
+/* --- Primary Sidebar Subpage Links (Leaf Links) --- */
+.md-sidebar--primary .md-nav__item:not(.md-nav__item--nested) > .md-nav__link {
+  font-size: 0.7rem !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 1.35 !important;
+  color: var(--zen-text-link) !important;
+  padding: 0.22rem 0.5rem !important;
+  margin: 0.05rem 0 !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.md-sidebar--primary .md-nav__item:not(.md-nav__item--nested) > .md-nav__link:hover:not(.md-nav__link--active) {
+  background-color: var(--zen-pill-bg-hover) !important;
+  color: var(--zen-text-link-hover) !important;
+}
+
+/* --- Active Subpage Link: Antigravity Soft Blue Rounded Pill --- */
+.md-sidebar--primary .md-nav__item:not(.md-nav__item--nested) > .md-nav__link--active {
+  background-color: var(--zen-pill-bg-active) !important;
+  color: var(--zen-pill-text-active) !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+}
+
+/* --- Document Page Icons in Sidebar - Disabled for Antigravity Cleanliness --- */
+.md-nav__page-icon {
+  display: none !important;
+}
+
+/* ==========================================================================
+   2. Local & GDPR-Compliant Font Stacks
+   ========================================================================== */
+:root {
+  --md-text-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --md-code-font: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body, input {
+  font-family: var(--md-text-font) !important;
+}
+
+code, kbd, pre {
+  font-family: var(--md-code-font) !important;
+}
+
+/* ==========================================================================
+   3. Zensical Landing Page & Hero Section
+   ========================================================================== */
+/* Break out of .md-grid / .md-main__inner / .md-content constraints */
+.md-main:has(.glp-landing-page) {
+
+}
+
+.md-main:has(.glp-landing-page) .md-main__inner,
+.md-main:has(.glp-landing-page) .md-content,
+.md-main:has(.glp-landing-page) .md-content__inner,
+.md-main:has(.glp-landing-page) article.md-content__inner {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.md-main:has(.glp-landing-page) .md-typeset {
+  max-width: 100% !important;
+}
+
+/* ==========================================================================
+   4. Landing Page: Epistemic IDE Standard Whitemode
+   ========================================================================== */
+.glp-landing-page {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Hero Section */
+.glp-hero {
+  position: relative;
+  min-height: calc(100vh - 4.8rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  color: #0f172a;
+  overflow: hidden;
+  padding: 3.5rem 6vw;
+  box-sizing: border-box;
+  width: 100% !important;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.glp-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Operational Status Badge */
+.glp-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #2563eb;
+  width: fit-content;
+  letter-spacing: 0.02em;
+}
+
+.glp-hero__badge-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Typography Hierarchy */
+.md-typeset .glp-hero__title,
+.glp-hero__title {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: clamp(2.4rem, 4.8vw, 4.0rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+.md-typeset .glp-hero__lead,
+.glp-hero__lead {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem) !important;
+  line-height: 1.6 !important;
+  color: #475569 !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+}
+
+.md-typeset .glp-hero__attribution,
+.glp-hero__attribution {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 0.88rem !important;
+  color: #64748b !important;
+  margin-top: -0.5rem !important;
+  font-style: italic !important;
+}
+
+.glp-hero__attribution a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.glp-hero__attribution a:hover {
+  text-decoration: underline;
+}
+
+/* Action Buttons (Strict Whitemode / No Drop Shadows) */
+.glp-hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 0.6rem;
+}
+
+.glp-hero__primary-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.glp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.15rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 4px; /* rounded.sm */
+  text-decoration: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.glp-btn--primary {
+  background-color: #2563eb;
+  color: #ffffff !important;
+  border: 1px solid #1d4ed8;
+}
+
+.glp-btn--primary:hover {
+  background-color: #1d4ed8;
+}
+
+.glp-btn--studio {
+  background-color: #0f172a;
+  color: #ffffff !important;
+  border: 1px solid #0f172a;
+}
+
+.glp-btn--studio:hover {
+  background-color: #1e293b;
+  border-color: #1e293b;
+}
+
+.glp-btn__arrow {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.92rem;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.glp-btn--studio:hover .glp-btn__arrow {
+  transform: translate(2px, -2px);
+}
+
+.glp-btn--secondary {
+  background-color: #f8fafc;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0;
+}
+
+.glp-btn--secondary:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.glp-btn--ghost {
+  background-color: transparent;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0;
+}
+
+.glp-btn--ghost:hover {
+  color: #0f172a !important;
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.glp-hero__sub-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.glp-hero__sub-links a {
+  color: #64748b;
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+}
+
+.glp-hero__sub-links a:hover {
+  color: #0f172a;
+  text-decoration: underline !important;
+}
+
+.glp-sep {
+  color: #cbd5e1;
+  user-select: none;
+}
+
+/* Canvas Visualizer Container */
+.glp-hero__visual {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 45%;
+  z-index: 1;
+  pointer-events: auto;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive Hero Stacking for Tablets & Mobile (< 960px) */
+@media (max-width: 959px) {
+  .glp-hero {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: 2.5rem 1.5rem 2rem;
+    gap: 2.25rem;
+  }
+
+  .glp-hero__content {
+    max-width: 100%;
+  }
+
+  .glp-hero__visual {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: 520px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  .glp-hero {
+    padding: 2rem 1rem 1.5rem;
+    gap: 1.75rem;
+  }
+
+  .glp-hero__visual {
+    height: 460px;
+  }
+}
+
+#theorynet-hero-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Epistemic Provenance Node Tooltip */
+.glp-hero__tooltip {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.04);
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+  width: 270px;
+  max-width: calc(100% - 32px);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: #1e293b;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.glp-hero__tooltip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glp-hero__tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.glp-hero__tooltip-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 0.12rem 0.35rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.glp-hero__tooltip-tag--L1 {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.glp-hero__tooltip-tag--L2 {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.glp-hero__tooltip-tag--L3 {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.glp-hero__tooltip-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.glp-hero__tooltip-title {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+.glp-hero__tooltip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.73rem;
+  color: #475569;
+}
+
+.glp-hero__tooltip-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.glp-hero__tooltip-label {
+  color: #94a3b8;
+  font-size: 0.70rem;
+  flex-shrink: 0;
+  min-width: 62px;
+}
+
+.glp-hero__tooltip-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.70rem;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   Minimal Floating Status Pill
+   ========================================================================== */
+.glp-hero__status {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #334155;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  user-select: none;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.glp-hero__status:hover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(203, 213, 225, 1);
+  box-shadow: 0 6px 20px -2px rgba(15, 23, 42, 0.09);
+}
+
+.glp-hero__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
+  animation: glp-pulse 2s infinite ease-in-out;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glp-hero__status-dot.is-verified {
+  background-color: #059669;
+  box-shadow: 0 0 8px rgba(5, 150, 105, 0.6);
+}
+
+@keyframes glp-pulse {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0.7; }
+}
+
+.glp-hero__status-text {
+  letter-spacing: -0.01em;
+  color: #1e293b;
+}
+
+.glp-hero__replay-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  padding: 0.1rem 0.2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.glp-hero__replay-btn:hover {
+  color: #2563eb;
+  transform: rotate(45deg);
+}
+
+/* Dark Mode / Slate Theme support */
+[data-md-color-scheme="slate"] .glp-hero__status {
+  background: rgba(15, 23, 42, 0.82);
+  border-color: rgba(51, 65, 85, 0.7);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  color: #e2e8f0;
+}
+
+[data-md-color-scheme="slate"] .glp-hero__status-text {
+  color: #f8fafc;
+}
+
+[data-md-color-scheme="slate"] .glp-hero__replay-btn {
+  color: #64748b;
+}
+
+[data-md-color-scheme="slate"] .glp-hero__replay-btn:hover {
+  color: #60a5fa;
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 600px) {
+  .glp-hero__status {
+    bottom: 0.85rem;
+    right: 0.85rem;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.65rem;
+  }
+}
+
+
+/* ==========================================================================
+   5. Overview Sections: Architecture, Pipeline & Epistemetrics
+   ========================================================================== */
+.glp-features-section {
+  padding: 5rem 6vw 4rem 6vw;
+  background-color: #ffffff;
+}
+
+.glp-section-header {
+  text-align: left;
+  max-width: 820px;
+  margin: 0 0 3rem 0;
+}
+
+.glp-section-header h2 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.025em;
+}
+
+.glp-section-header p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 3-Layer Architecture Docked Grid (No Box-Crate Syndrome) */
+.glp-layer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px; /* rounded.md */
+  overflow: hidden;
+  margin-bottom: 4.5rem;
+  background-color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .glp-layer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.glp-layer-card {
+  padding: 2.2rem;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: background-color 0.15s ease;
+}
+
+.glp-layer-card:last-child {
+  border-right: none;
+}
+
+@media (max-width: 900px) {
+  .glp-layer-card {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .glp-layer-card:last-child {
+    border-bottom: none;
+  }
+}
+
+.glp-layer-card:hover {
+  background-color: #f8fafc;
+}
+
+.glp-layer-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #f1f5f9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+
+.glp-layer-card h3 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.6rem 0;
+}
+
+.glp-layer-card p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin: 0 0 1.25rem 0;
+  flex-grow: 1;
+}
+
+.glp-layer-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Feature Cards Grid (4-Pillar Grid) */
+.glp-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 4.5rem;
+}
+
+.glp-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px; /* rounded.md */
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.glp-card:hover {
+  border-color: #2563eb;
+  background-color: #ffffff;
+}
+
+.glp-card__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.2rem;
+}
+
+.glp-card__icon--blue {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #dbeafe;
+}
+
+.glp-card__icon--purple {
+  background: #f5f3ff;
+  color: #7c3aed;
+  border: 1px solid #ede9fe;
+}
+
+.glp-card__icon--emerald {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #d1fae5;
+}
+
+.glp-card__icon--amber {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fef3c7;
+}
+
+.glp-card h3 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.5rem 0;
+}
+
+.glp-card p {
+  font-size: 0.90rem;
+  line-height: 1.55;
+  color: #64748b;
+  margin: 0 0 1.25rem 0;
+  flex-grow: 1;
+}
+
+.glp-card__link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Linear-Style Epistemetrics Telemetry Table */
+.glp-telemetry-container {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 4.5rem;
+  background: #ffffff;
+}
+
+.glp-telemetry-header {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.glp-telemetry-header h3 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.glp-telemetry-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+}
+
+.glp-telemetry-table th {
+  text-align: left;
+  padding: 0.65rem 1.5rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.glp-telemetry-table td {
+  padding: 0.8rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.glp-telemetry-table tr:last-child td {
+  border-bottom: none;
+}
+
+.glp-telemetry-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+.glp-telemetry-table .metric-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.glp-telemetry-table .metric-val {
+  font-family: 'Inter', sans-serif;
+  font-feature-settings: 'tnum' 1;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.glp-telemetry-table .metric-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #d1fae5;
+}
+
+/* Quickstart Snippet Banner (Light Surface Wash) */
+.glp-quickstart-banner {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.glp-quickstart-banner h3 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.glp-quickstart-banner pre {
+  margin: 0;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+}
+
+.glp-quickstart-banner code {
+  color: #0f172a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+}
+
+/* ==========================================================================
+   6. System & Research Specification Strip
+   ========================================================================== */
+.glp-specs-bar {
+  width: 100%;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.75rem 6vw;
+  box-sizing: border-box;
+}
+
+.glp-specs-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0;
+}
+
+.glp-spec-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+}
+
+.glp-spec-k {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.glp-spec-v {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.glp-spec-sep {
+  color: #cbd5e1;
+  font-size: 0.65rem;
+  user-select: none;
+}
+
+/* ==========================================================================
+   7. Studio Workbench Card Enhancements
+   ========================================================================== */
+.glp-card--workbench {
+  border-color: #cbd5e1;
+  position: relative;
+}
+
+.glp-card--workbench:hover {
+  border-color: #059669;
+  background-color: #ffffff;
+}
+
+.glp-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.glp-card__top .glp-card__icon {
+  margin-bottom: 0;
+}
+
+.glp-card__badge--workbench {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.glp-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.glp-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 3px;
+  color: #475569;
+}
+
+.glp-card__link--workbench {
+  color: #059669 !important;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   8. Academic Citation & Reference Section
+   ========================================================================== */
+.glp-citation-section {
+  padding: 3.5rem 6vw 5rem 6vw;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.glp-citation-container {
+  max-width: 820px;
+  margin: 0;
+}
+
+.glp-citation-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.glp-citation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.glp-citation-format {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.glp-citation-cff {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #2563eb;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+.glp-citation-cff:hover {
+  text-decoration: underline !important;
+}
+
+.glp-citation-code {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff !important;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+.glp-citation-code code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #0f172a;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* ==========================================================================
+   Mermaid Diagrams Centering & Container Styling
+   ========================================================================== */
+.mermaid,
+pre.mermaid,
+div.mermaid {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+}
+
+.mermaid > svg,
+pre.mermaid > svg,
+div.mermaid > svg {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+}

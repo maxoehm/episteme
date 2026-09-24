@@ -1,0 +1,20 @@
+{
+  "artifact_id": "chunk_psych_1",
+  "identity_key": "chunk_psych_1",
+  "kind": "chunk",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 1: Data Foundation",
+  "payload": {
+    "id": "chunk_psych_1",
+    "text": "Shared empirical grounding: Elevated heart rate, fMRI amygdala hyperactivation, and ancestral venomous threats.",
+    "chunk_index": 1,
+    "confidence": 1.0
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

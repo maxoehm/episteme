@@ -1,0 +1,23 @@
+{
+  "artifact_id": "atom_DL_GEODESIC",
+  "identity_key": "atom_DL_GEODESIC",
+  "kind": "theory_atom",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 4: Argument Mining",
+  "payload": {
+    "component_id": "DL_GEODESIC",
+    "component_type": "DerivedEmpiricalLaw",
+    "text": "Objects follow geodesics in curved spacetime.",
+    "epistemic_status": "B",
+    "confidence": 0.98,
+    "plausibility": 0.99,
+    "source_chunk_id": "chunk_phys_2"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

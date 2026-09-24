@@ -1,0 +1,129 @@
+{
+  "run_id": "run-demo-psychology",
+  "pipeline_version": "0.1.0",
+  "schema_version": "v1",
+  "status": "completed",
+  "created_at": "2026-09-01T11:00:00Z",
+  "started_at": "2026-09-01T11:00:05Z",
+  "completed_at": "2026-09-01T11:03:45Z",
+  "duration_seconds": 220.0,
+  "primary_input": "psychology_paradigms.cypher",
+  "input_sources": [
+    "datasets/psychology_paradigms.cypher"
+  ],
+  "tags": [
+    "demo",
+    "psychology",
+    "paradigm-conflict",
+    "epistemic-safety"
+  ],
+  "models": {
+    "llm_model": "openai/gpt-4o",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "reranker_model": "Alibaba-NLP/gte-reranker-modernbert-base",
+    "thinking_level": "medium"
+  },
+  "phase_records": [
+    {
+      "ordinal": 1,
+      "phase_name": "Phase 1: Data Foundation",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 6
+    },
+    {
+      "ordinal": 2,
+      "phase_name": "Phase 2: Entity & Local Relation Discovery",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 3
+    },
+    {
+      "ordinal": 3,
+      "phase_name": "Phase 3: Global Relation Extraction",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 0
+    },
+    {
+      "ordinal": 4,
+      "phase_name": "Phase 3b: Latent Graph Consolidation",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 2
+    },
+    {
+      "ordinal": 5,
+      "phase_name": "Phase 4: Entity Maturation",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 3
+    },
+    {
+      "ordinal": 6,
+      "phase_name": "Phase 4: Argument Mining",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 11
+    },
+    {
+      "ordinal": 7,
+      "phase_name": "Phase 5: Inter-Document Argument Web",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 22
+    },
+    {
+      "ordinal": 8,
+      "phase_name": "Phase 6: TheoryNet Projection",
+      "status": "completed",
+      "reused": false,
+      "artifact_count": 5
+    }
+  ],
+  "artifact_counts_by_kind": {
+    "document": 1,
+    "chunk": 5,
+    "entity": 3,
+    "theory_atom": 11,
+    "theory_relation": 22
+  },
+  "config_snapshot": {
+    "default_embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "models": {
+      "llm_model": "openai/gpt-4o",
+      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "reranker_model": "Alibaba-NLP/gte-reranker-modernbert-base"
+    },
+    "graph_schema": {
+      "version": "v1",
+      "node_types": [
+        "Theory"
+      ],
+      "relation_types": [
+        "BELONGS_TO"
+      ],
+      "component_types": [
+        "EmpiricalSentence",
+        "Premise",
+        "Claim"
+      ],
+      "argument_relation_types": [
+        "SUPPORTS",
+        "ATTACKS",
+        "BELONGS_TO"
+      ],
+      "relation_polarities": {
+        "SUPPORTS": 1,
+        "BELONGS_TO": 1,
+        "ATTACKS": -1
+      },
+      "component_partitions": {
+        "Premise": "A",
+        "Claim": "A",
+        "EmpiricalSentence": "B"
+      }
+    }
+  },
+  "fingerprints": {}
+}

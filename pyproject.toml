@@ -1,0 +1,40 @@
+[project]
+name = "episteme-workspace"
+version = "0.1.0"
+description = "Monorepo workspace for Episteme theory graph construction"
+requires-python = ">=3.13"
+dependencies = [
+    "episteme-pipeline",
+    "epistemetrics",
+    "episteme-studio",
+]
+
+[tool.uv.sources]
+episteme-pipeline = { workspace = true }
+epistemetrics = { workspace = true }
+episteme-studio = { workspace = true }
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[dependency-groups]
+dev = [
+    "mkdocstrings-python>=1.10.0",
+    "pytest>=9.0.3",
+    "pytest-asyncio==1.4.0",
+    "zensical==0.0.64",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = [
+    "packages/episteme-pipeline/tests",
+    "packages/epistemetrics/tests",
+    "packages/episteme-studio/tests",
+]
+pythonpath = [
+    "packages/episteme-pipeline",
+    "packages/epistemetrics/src",
+    "packages/episteme-studio/src",
+]
+norecursedirs = ["src", "frontend", "node_modules"]

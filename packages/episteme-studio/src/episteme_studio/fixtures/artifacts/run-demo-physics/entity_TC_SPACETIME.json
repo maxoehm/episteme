@@ -1,0 +1,24 @@
+{
+  "artifact_id": "entity_TC_SPACETIME",
+  "identity_key": "entity_TC_SPACETIME",
+  "kind": "linked_entity",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 2: Entity & Local Relation Discovery",
+  "payload": {
+    "entity_id": "TC_SPACETIME",
+    "entity_type": "TheoreticalConstruct",
+    "canonical_name": "Curved Spacetime Manifold",
+    "description": "4-dimensional pseudo-Riemannian metric manifold.",
+    "confidence": 0.95,
+    "source_chunk_ids": [
+      "chunk_phys_1"
+    ]
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

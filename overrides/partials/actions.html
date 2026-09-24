@@ -1,0 +1,66 @@
+{#-
+  Custom actions partial for Zensical with page status badge and action icons
+-#}
+{% if page.edit_url %}
+  {% if "content.action.edit" in features %}
+    <a href="{{ page.edit_url }}" title="{{ lang.t('action.edit') }}" class="md-content__button md-icon" rel="edit">
+      {% set icon = config.theme.icon.edit or "material/file-edit-outline" %}
+      {% include ".icons/" ~ icon ~ ".svg" %}
+    </a>
+  {% endif %}
+  {% if "content.action.view" in features %}
+    {% if "/blob/" in page.edit_url %}
+      {% set part = "/blob/" %}
+    {% else %}
+      {% set part = "/edit/" %}
+    {% endif %}
+    <a href="{{ page.edit_url | replace(part, '/raw/') }}" title="{{ lang.t('action.view') }}" class="md-content__button md-icon">
+      {% set icon = config.theme.icon.view or "material/file-eye-outline" %}
+      {% include ".icons/" ~ icon ~ ".svg" %}
+    </a>
+  {% endif %}
+{% endif %}
+{% if page.ancestors %}
+  <nav class="md-breadcrumbs" aria-label="Breadcrumbs">
+    <ol class="md-breadcrumbs__list">
+      {% for ancestor in page.ancestors | reverse %}
+        {% if ancestor.title %}
+          <li class="md-breadcrumbs__item">
+            {% if ancestor.url %}
+              <a href="{{ ancestor.url | url }}" class="md-breadcrumbs__link">{{ ancestor.title }}</a>
+            {% else %}
+              <span class="md-breadcrumbs__text">{{ ancestor.title }}</span>
+            {% endif %}
+            <span class="md-breadcrumbs__separator" aria-hidden="true">›</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+      <li class="md-breadcrumbs__item">
+        <span class="md-breadcrumbs__current">{{ page.title }}</span>
+      </li>
+    </ol>
+  </nav>
+{% endif %}
+{% if page.meta and page.meta.status %}
+  {% set status_key = page.meta.status %}
+  {% set status_label = config.extra.status[status_key] if (config.extra.status and config.extra.status[status_key]) else status_key %}
+  <span class="md-status-badge md-status-badge--{{ status_key }}" title="Status: {{ status_label }}">
+    <span class="md-status-badge__icon">
+      {% if status_key in ["in_progress", "in_research", "research", "wip"] %}
+        {% include ".icons/material/progress-wrench.svg" %}
+      {% elif status_key in ["needs_verification", "in_review", "pending_verification", "verification_needed"] %}
+        {% include ".icons/material/progress-check.svg" %}
+      {% elif status_key in ["needs_revision", "revision_needed", "revision"] %}
+        {% include ".icons/material/progress-alert.svg" %}
+      {% elif status_key in ["completed", "done", "resolved"] %}
+        {% include ".icons/material/check-circle-outline.svg" %}
+      {% elif status_key in ["delayed", "on_hold", "blocked"] %}
+        {% include ".icons/material/clock-alert-outline.svg" %}
+      {% else %}
+        {% include ".icons/material/help-circle-outline.svg" %}
+      {% endif %}
+    </span>
+    <span class="md-status-badge__text">{{ status_label }}</span>
+  </span>
+{% endif %}
+

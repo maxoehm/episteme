@@ -1,0 +1,24 @@
+{
+  "artifact_id": "entity_T_NEURO",
+  "identity_key": "entity_T_NEURO",
+  "kind": "linked_entity",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 2: Entity & Local Relation Discovery",
+  "payload": {
+    "entity_id": "T_NEURO",
+    "entity_type": "Theory",
+    "canonical_name": "Evolutionary Neuroscience",
+    "description": "Spider phobia as hyper-sensitized, evolutionary threat-detection.",
+    "confidence": 0.95,
+    "source_chunk_ids": [
+      "chunk_psych_1"
+    ]
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

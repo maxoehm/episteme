@@ -1,0 +1,70 @@
+[project]
+site_name = "Epistemetrics Documentation"
+strict = false
+docs_dir = "docs"
+repo_name = "epistemetrics"
+repo = "fontawesome/brands/git-alt"
+repo_url = "https://github.com/zensical/zensical"
+
+extra_javascript = [
+    "javascripts/mathjax.js",
+    "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"
+]
+
+nav = [
+  { "Home" = "index.md" },
+  
+  { "Getting Started" = [
+    { "Installation" = "getting_started/installation.md" },
+    { "Quickstart Guide" = "getting_started/quickstart.md" }
+  ] },
+
+  { "Tutorials" = [
+    { "Analyzing Theory Graphs" = "tutorials/evaluate_theory_graph.md" }
+  ] },
+
+  { "Theoretical Foundations" = [
+    { "Epistemic Metrics & Wissenschaftstheorie" = "concepts/epistemic_metrics.md" },
+    { "Argumentation & Coherence" = "concepts/argumentation_coherence.md" }
+  ] },
+
+  { "API Reference" = [
+    { "Core Models" = "reference/core.md" },
+    { "Metrics Suite" = "reference/metrics.md" },
+    { "Adapters" = "reference/adapters.md" }
+  ] }
+]
+
+[project.theme]
+features = [
+  "navigation.tabs",
+  "navigation.sections",
+  "navigation.expand",
+  "content.code.copy",
+  "content.code.annotate",
+  "header.autohide",
+  "content.action.view"
+]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.blocks.caption]
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.pymdownx.arithmatex]
+generic = true
+
+[project.markdown_extensions.admonition]
+
+[project.markdown_extensions.pymdownx.highlight]
+use_pygments = true
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }
+]
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+options = { show_source = true, show_root_heading = true }

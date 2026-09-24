@@ -1,0 +1,24 @@
+{
+  "artifact_id": "entity_APP_MERC_REL",
+  "identity_key": "entity_APP_MERC_REL",
+  "kind": "linked_entity",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 2: Entity & Local Relation Discovery",
+  "payload": {
+    "entity_id": "APP_MERC_REL",
+    "entity_type": "EmpiricalApplication",
+    "canonical_name": "Mercury Precession Application",
+    "description": "Application explaining Mercury's 43 arcsec precession.",
+    "confidence": 0.95,
+    "source_chunk_ids": [
+      "chunk_phys_1"
+    ]
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_rel_vulc_att",
+  "identity_key": "trel_rel_vulc_att",
+  "kind": "theory_relation",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_rel_vulc_att",
+    "source_component_id": "APP_MERC_REL",
+    "relation_type": "ATTACKS",
+    "target_component_id": "HYP_VULCAN",
+    "weight": -0.9,
+    "confidence": 0.9,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

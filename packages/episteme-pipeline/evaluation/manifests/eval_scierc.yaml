@@ -1,0 +1,6 @@
+run_id: "scierc_eval_run_01"
+corpus:
+  dataset_type: "scierc"
+  gold_standard_path: "evaluation/data/scieERC/test.json"
+  texts_dir: "evaluation/data/scieERC/texts"
+  limit: 3
