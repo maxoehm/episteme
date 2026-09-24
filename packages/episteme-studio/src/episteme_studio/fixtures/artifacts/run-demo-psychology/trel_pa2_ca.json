@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_pa2_ca",
+  "identity_key": "trel_pa2_ca",
+  "kind": "theory_relation",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_pa2_ca",
+    "source_component_id": "PA2",
+    "relation_type": "SUPPORTS",
+    "target_component_id": "CA",
+    "weight": 0.9,
+    "confidence": 0.9,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

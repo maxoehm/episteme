@@ -1,0 +1,23 @@
+{
+  "artifact_id": "atom_PA2",
+  "identity_key": "atom_PA2",
+  "kind": "theory_atom",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 4: Argument Mining",
+  "payload": {
+    "component_id": "PA2",
+    "component_type": "Premise",
+    "text": "Innate fear of historic evolutionary threats provides a survival advantage.",
+    "epistemic_status": "A",
+    "confidence": 0.9,
+    "plausibility": 0.9,
+    "source_chunk_id": "chunk_psych_1"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

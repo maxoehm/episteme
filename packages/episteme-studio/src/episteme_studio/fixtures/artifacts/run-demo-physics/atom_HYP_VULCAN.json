@@ -1,0 +1,23 @@
+{
+  "artifact_id": "atom_HYP_VULCAN",
+  "identity_key": "atom_HYP_VULCAN",
+  "kind": "theory_atom",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 4: Argument Mining",
+  "payload": {
+    "component_id": "HYP_VULCAN",
+    "component_type": "Claim",
+    "text": "An unseen planet 'Vulcan' exerts gravitational pull on Mercury.",
+    "epistemic_status": "A",
+    "confidence": 0.4,
+    "plausibility": 0.3,
+    "source_chunk_id": "chunk_phys_2"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

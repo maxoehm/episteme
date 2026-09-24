@@ -1,0 +1,123 @@
+# Run Manifest Schema (draft)
+# Purpose: Immutable, per-run record linking evaluation results to methods, prompts, corpora, and schema snapshots.
+
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://episteme.local/evaluation/run_manifest.schema.yaml
+
+title: Episteme Run Manifest
+type: object
+required:
+  - run_id
+  - created_utc
+  - code_version
+  - corpus
+  - model
+  - prompts
+  - schema_snapshot
+  - phases
+  - evaluation_mode
+properties:
+  run_id:
+    type: string
+    description: Opaque unique identifier for the run.
+  created_utc:
+    type: string
+    format: date-time
+  code_version:
+    type: string
+    description: Git commit SHA or version tag.
+  evaluation_mode:
+    type: string
+    enum: [closed_book, retrieval_assisted]
+  seeds:
+    type: object
+    additionalProperties:
+      type: integer
+  corpus:
+    type: object
+    required: [name, version, split, language]
+    properties:
+      name: { type: string }
+      version: { type: string }
+      split: { type: string }
+      language:
+        type: string
+        description: Language of the corpus (e.g., EN, DE) to track multilingual performance.
+      notes: { type: string }
+  model:
+    type: object
+    required: [provider, name, version]
+    properties:
+      provider: { type: string }
+      name: { type: string }
+      version: { type: string }
+      decoding:
+        type: object
+        properties:
+          temperature: { type: number }
+          top_p: { type: number }
+          max_tokens: { type: integer }
+  prompts:
+    type: array
+    items:
+      type: object
+      required: [id, version]
+      properties:
+        id: { type: string }
+        version: { type: string }
+        checksum: { type: string }
+        notes: { type: string }
+  schema_snapshot:
+    type: object
+    required: [id, version]
+    properties:
+      id: { type: string }
+      version: { type: string }
+      checksum: { type: string }
+  methods:
+    type: object
+    description: Method configurations per phase (e.g., chunker params, linker thresholds).
+    additionalProperties:
+      type: object
+  phases:
+    type: array
+    items:
+      type: object
+      required: [id, status, artifacts]
+      properties:
+        id:
+          type: string
+          enum:
+            - phase1_chunking
+            - phase2_entity_graph
+            - phase3_global_graph
+            - phase5_fusion
+            - reference_free_eval
+        status:
+          type: string
+          enum: [planned, running, completed, failed]
+        artifacts:
+          type: array
+          items:
+            type: object
+            required: [kind, path]
+            properties:
+              kind: { type: string }
+              path: { type: string }
+              checksum: { type: string }
+              stats: { type: object }
+  retrieval:
+    type: object
+    properties:
+      enabled: { type: boolean }
+      index_id: { type: string }
+      sources: { type: array, items: { type: string } }
+  costs:
+    type: object
+    properties:
+      tokens_prompt: { type: integer }
+      tokens_completion: { type: integer }
+      wall_clock_seconds: { type: number }
+      memory_mb: { type: number }
+  notes:
+    type: string

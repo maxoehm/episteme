@@ -1,0 +1,74 @@
+"""Contextvars-based event emitter management for the pipeline event system.
+
+Provides task-local binding and retrieval of active `EventEmitter` instances,
+eliminating the need to pass `event_emitter` through every function and class constructor.
+"""
+from __future__ import annotations
+
+from contextlib import contextmanager
+from contextvars import ContextVar, Token
+from typing import Generator, Optional
+
+from .bus import EventEmitter, NoOpEventEmitter
+
+_DEFAULT_EMITTER = NoOpEventEmitter()
+_CURRENT_EVENT_EMITTER: ContextVar[Optional[EventEmitter]] = ContextVar(
+    "_CURRENT_EVENT_EMITTER", default=None
+)
+
+
+def get_event_emitter() -> EventEmitter:
+    """Retrieve the currently active `EventEmitter` from task-local context.
+
+    Returns
+    -------
+    EventEmitter
+        The active event emitter bound to the current context, or a default
+        `NoOpEventEmitter` if no emitter has been set.
+    """
+    emitter = _CURRENT_EVENT_EMITTER.get()
+    return emitter if emitter is not None else _DEFAULT_EMITTER
+
+
+def set_event_emitter(emitter: Optional[EventEmitter]) -> Token:
+    """Set the active `EventEmitter` for the current task-local context.
+
+    Parameters
+    ----------
+    emitter : Optional[EventEmitter]
+        The event emitter to set, or None to clear context.
+
+    Returns
+    -------
+    Token
+        A contextvar token that can be used to reset the previous context value.
+    """
+    return _CURRENT_EVENT_EMITTER.set(emitter)
+
+
+@contextmanager
+def use_event_emitter(emitter: Optional[EventEmitter]) -> Generator[EventEmitter, None, None]:
+    """Context manager to bind an `EventEmitter` for the duration of a code block.
+
+    Parameters
+    ----------
+    emitter : Optional[EventEmitter]
+        The event emitter to bind to the current context.
+
+    Yields
+    ------
+    EventEmitter
+        The active event emitter.
+
+    Examples
+    --------
+    >>> emitter = SimpleEventEmitter()
+    >>> with use_event_emitter(emitter):
+    ...     # get_event_emitter() returns `emitter` within this block
+    ...     do_pipeline_work()
+    """
+    token = set_event_emitter(emitter)
+    try:
+        yield get_event_emitter()
+    finally:
+        _CURRENT_EVENT_EMITTER.reset(token)

@@ -1,0 +1,23 @@
+{
+  "artifact_id": "atom_AX_GRAVITY",
+  "identity_key": "atom_AX_GRAVITY",
+  "kind": "theory_atom",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 4: Argument Mining",
+  "payload": {
+    "component_id": "AX_GRAVITY",
+    "component_type": "BasicAxiom",
+    "text": "F = G(m1m2)/r^2",
+    "epistemic_status": "A",
+    "confidence": 0.98,
+    "plausibility": 1.0,
+    "source_chunk_id": "chunk_phys_2"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

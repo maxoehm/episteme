@@ -1,0 +1,65 @@
+# Environments & Secrets
+**/.env
+**/.env.*
+!.env.example
+
+# IDEs & System Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# AI Tools & Agents
+.codex/
+.agents/
+opencode.json
+
+# Local Pipeline Caches & Artifacts
+**/.pipeline_artifacts/
+**/.pipeline_runs/
+.pipeline_engine_settings.json
+**/logs/
+/evaluation/data/
+packages/episteme-pipeline/evaluation/data/
+**/.cache/
+/.uv-cache/
+/.venv/
+
+# Python Build & Bytecode
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Node / Frontend
+packages/episteme-studio/frontend/node_modules/
+packages/episteme-studio/frontend/dist/
+packages/episteme-studio/src/episteme_studio/static/
+.eslintcache
+.vite/
+
+# Documentation Builds
+/site/
+/packages/epistemetrics/site/
+
+# LaTeX Artifacts & Paper Outputs
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+paper/main.pdf
+paper/wordcount.txt
+**/out/
+
+# Examples / Ad-hoc
+/examples/
+/paper/

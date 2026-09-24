@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_ca_att_cb",
+  "identity_key": "trel_ca_att_cb",
+  "kind": "theory_relation",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_ca_att_cb",
+    "source_component_id": "CA",
+    "relation_type": "ATTACKS",
+    "target_component_id": "CB",
+    "weight": -0.9,
+    "confidence": 0.9,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_pc1_cc",
+  "identity_key": "trel_pc1_cc",
+  "kind": "theory_relation",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_pc1_cc",
+    "source_component_id": "PC1",
+    "relation_type": "SUPPORTS",
+    "target_component_id": "CC",
+    "weight": 0.8,
+    "confidence": 0.8,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

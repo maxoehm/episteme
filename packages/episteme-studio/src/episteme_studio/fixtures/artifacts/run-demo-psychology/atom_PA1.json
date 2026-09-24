@@ -1,0 +1,23 @@
+{
+  "artifact_id": "atom_PA1",
+  "identity_key": "atom_PA1",
+  "kind": "theory_atom",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 4: Argument Mining",
+  "payload": {
+    "component_id": "PA1",
+    "component_type": "Premise",
+    "text": "The amygdala is the brain's primary threat-detection and fear-processing center.",
+    "epistemic_status": "A",
+    "confidence": 0.95,
+    "plausibility": 0.95,
+    "source_chunk_id": "chunk_psych_1"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

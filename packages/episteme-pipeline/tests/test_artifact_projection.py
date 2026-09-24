@@ -1,0 +1,58 @@
+import pytest
+
+from episteme_pipeline.artifacts.mappers import map_phase1_output_to_artifacts, map_phase2_output_to_artifacts
+from episteme_pipeline.contracts.phase_contracts import L1Chunk, L1Document, L2Entity, Phase1Output, Phase2Output
+from episteme_pipeline.projection.artifact_projector import ArtifactGraphProjector
+
+
+@pytest.mark.asyncio
+async def test_project_phase1_artifacts_to_graph(graph_store):
+    artifacts = map_phase1_output_to_artifacts(
+        Phase1Output(
+            documents=[
+                L1Document(
+                    id="doc-1",
+                    title="Doc",
+                    source_path="docs/doc.md",
+                    chapter_count=1,
+                    chunk_count=1,
+                )
+            ],
+            chunks=[
+                L1Chunk(
+                    id="chunk-1",
+                    text="Hello",
+                    source_doc_id="doc-1",
+                    chapter_id="chap-1",
+                    sequence_index=0,
+                    token_count=1,
+                )
+            ],
+        ),
+        run_id="run-1",
+    )
+    projector = ArtifactGraphProjector(graph_store)
+
+    for artifact in artifacts:
+        await projector.project(artifact)
+
+    chunks = await graph_store.get_chunks()
+    assert len(chunks) == 1
+
+
+@pytest.mark.asyncio
+async def test_project_phase2_artifacts_to_graph(graph_store):
+    artifacts = map_phase2_output_to_artifacts(
+        Phase2Output(
+            entities=[L2Entity(id="e1", label="PERSON", name="Kant", source_chunk_ids=["chunk-1"])],
+            local_triples=[],
+        ),
+        run_id="run-1",
+    )
+    projector = ArtifactGraphProjector(graph_store)
+
+    for artifact in artifacts:
+        await projector.project(artifact)
+
+    entities = await graph_store.get_entities()
+    assert len(entities) == 1

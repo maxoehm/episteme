@@ -1,0 +1,238 @@
+{% extends "main.html" %}
+
+{# Suppress sidebars to provide full viewport width on the landing page #}
+{% block site_nav %}{% endblock %}
+{% block toc %}{% endblock %}
+
+{% block content %}
+<!-- Google Fonts: Manrope (Headings), Inter (Interface & Tabular figures), JetBrains Mono (Telemetry & Machine keys) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet">
+
+<style>
+    /* Break out of .md-grid / .md-main__inner / .md-content constraints for full-bleed landing page */
+    .md-main {
+        background-color: #ffffff !important;
+    }
+
+    .md-main__inner {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .md-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .md-content__inner,
+    article.md-content__inner {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .md-typeset {
+        max-width: 100% !important;
+    }
+
+    .md-typeset .glp-hero__title,
+    .glp-hero__title {
+        color: #0f172a !important;
+    }
+
+    .md-typeset .glp-hero__lead,
+    .glp-hero__lead {
+        color: #475569 !important;
+    }
+</style>
+
+<div class="glp-landing-page">
+    <!-- 1. Hero Section with Constructive Hyper-Grid Visualizer -->
+    <section class="glp-hero">
+        <div class="glp-hero__content">
+            <h1 class="glp-hero__title">
+                Adaptive theory graphs for scientific discovery
+            </h1>
+
+            <p class="glp-hero__lead">
+                GLP transforms unstructured German and English scholarly literature into computable, queryable theory
+                nets with an extensive library of metrics.
+            </p>
+
+            <div class="glp-hero__attribution">
+                A flexible research-focused pipeline for graph construction
+            </div>
+
+            <div class="glp-hero__actions">
+                <div class="glp-hero__primary-ctas">
+                    <a href="overview/" class="glp-btn glp-btn--primary">
+                        Documentation
+                    </a>
+                    <a href="getting_started/studio/" class="glp-btn glp-btn--studio">
+                        <span>GLP Studio</span>
+                        <span class="glp-btn__arrow" aria-hidden="true">↗</span>
+                    </a>
+                </div>
+
+                <div class="glp-hero__sub-links">
+                    <a href="getting_started/quick_start/">Quickstart</a>
+                    <span class="glp-sep">/</span>
+                    <a href="concepts/theory/metrics/">Epistemetrics Suite</a>
+                    <span class="glp-sep">/</span>
+                    <a href="adr/">Architecture &amp; ADRs</a>
+                    <span class="glp-sep">/</span>
+                    <a href="roadmap/">Roadmap</a>
+                    <span class="glp-sep">/</span>
+                    <a href="concepts/kg_vs_tg/">Why Theory Graphs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Constructive TheoryNet Canvas -->
+        <div class="glp-hero__visual">
+            <canvas id="theorynet-hero-canvas" role="img"
+                    aria-label="Interactive 3D visualization of the Grund GLP theory graph construction"></canvas>
+            <div class="glp-hero__tooltip" id="hero-node-tooltip" role="tooltip" aria-live="polite"></div>
+
+            <!-- Minimal Floating Status Pill -->
+            <div class="glp-hero__status" id="hero-status-pill" role="status" aria-label="Pipeline status">
+                <span class="glp-hero__status-dot"></span>
+                <span class="glp-hero__status-text" id="hero-status-text">Synthesizing TheoryNet...</span>
+                <button class="glp-hero__replay-btn" id="hero-replay-btn" title="Replay Animation"
+                        aria-label="Replay Animation">↺
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Overview Sections: Architecture, Pipeline & Epistemetrics -->
+    <section class="glp-features-section">
+
+        <!-- Section 2: Core Platform Pillars -->
+        <div class="glp-section-header">
+            <h2>Engineering &amp; Evaluation Pillars</h2>
+            <p>
+                A deterministic, reproducible pipeline backed by dual-store Neo4j persistence, Langfuse tracing, and
+                rigorous epistemic evaluation algorithms.
+            </p>
+        </div>
+
+        <div class="glp-card-grid">
+            <!-- Pillar 1: Deterministic 5-Phase Pipeline -->
+            <a href="workflow/" class="glp-card">
+                <div class="glp-card__icon glp-card__icon--blue">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Deterministic Flexible Pipeline</h3>
+                <p>
+                    Orchestrates Data Foundation, Entity Discovery, Relation Extraction, Maturation, and Alignment
+                    Fusion with atomic checkpointing and invalidation graphs.
+                </p>
+                <span class="glp-card__link">View Pipeline Workflow &rarr;</span>
+            </a>
+
+            <!-- Pillar 2: Epistemetrics Suite -->
+            <a href="concepts/theory/metrics/" class="glp-card">
+                <div class="glp-card__icon glp-card__icon--purple">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                </div>
+                <h3>Epistemetrics Evaluation Suite</h3>
+                <p>
+                    Standalone quantitative evaluation suite computing Schurz's unification, LPG-ECHO coherence,
+                    Lakatosian progressive shifts, and structural elegance.
+                </p>
+                <span class="glp-card__link">Discover Epistemetrics &rarr;</span>
+            </a>
+
+            <!-- Pillar 3: GLP Studio Workbench -->
+            <a href="getting_started/studio/" class="glp-card glp-card--workbench">
+                <div class="glp-card__top">
+                    <div class="glp-card__icon glp-card__icon--emerald">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <span class="glp-card__badge glp-card__badge--workbench">Interactive UI</span>
+                </div>
+                <h3>GLP Studio Workbench</h3>
+                <p>
+                    FastAPI + React/TS run-oriented workbench for exploring theory graphs, inspecting identity diffs,
+                    and triaging extracted candidate triples.
+                </p>
+                <div class="glp-card__chips">
+                    <span class="glp-chip">DAG Composer</span>
+                    <span class="glp-chip">Cypher Console</span>
+                    <span class="glp-chip">Graph Explorer</span>
+                </div>
+                <span class="glp-card__link glp-card__link--workbench">Explore Studio Workbench &rarr;</span>
+            </a>
+
+            <!-- Pillar 4: Architecture & ADR Suite -->
+            <a href="adr/" class="glp-card">
+                <div class="glp-card__icon glp-card__icon--amber">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <h3>Architecture Decisions (ADRs)</h3>
+                <p>
+                    Comprehensive register of 18+ Architectural Decision Records detailing dual-memory graphs, async
+                    Neo4j stores, and constrained decoding strategies.
+                </p>
+                <span class="glp-card__link">Read Architecture Register &rarr;</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. Academic Citation & Reference Section -->
+    <section class="glp-citation-section">
+        <div class="glp-citation-container">
+            <div class="glp-section-header">
+                <h2>Citation &amp; Academic Reference</h2>
+                <p>
+                    If you utilize Grund GLP, Epistemetrics, or GLP Studio in scholarly research, please cite the
+                    project specification:
+                </p>
+            </div>
+
+            <div class="glp-citation-box">
+                <div class="glp-citation-header">
+                    <span class="glp-citation-format">BIBTEX</span>
+                    <a href="https://github.com/maoem/network-construct/blob/main/CITATION.cff" class="glp-citation-cff"
+                       target="_blank" rel="noopener">View CITATION.cff &rarr;</a>
+                </div>
+                <pre class="glp-citation-code"><code>@article{maoem2026grundglp,
+  title={Grund GLP: A Synergized Bidirectional Reasoning Engine for Scientific Theory Graphs},
+  author={Maoem},
+  year={2026},
+  url={https://github.com/maoem/network-construct}
+}</code></pre>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

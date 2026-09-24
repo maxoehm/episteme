@@ -1,0 +1,24 @@
+{
+  "artifact_id": "entity_T_BEHAVIOR",
+  "identity_key": "entity_T_BEHAVIOR",
+  "kind": "linked_entity",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 2: Entity & Local Relation Discovery",
+  "payload": {
+    "entity_id": "T_BEHAVIOR",
+    "entity_type": "Theory",
+    "canonical_name": "Classical Behaviorism",
+    "description": "Spider phobia as a purely conditioned associative reflex.",
+    "confidence": 0.95,
+    "source_chunk_ids": [
+      "chunk_psych_1"
+    ]
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

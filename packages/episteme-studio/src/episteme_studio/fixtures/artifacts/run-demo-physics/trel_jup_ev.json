@@ -1,0 +1,23 @@
+{
+  "artifact_id": "trel_jup_ev",
+  "identity_key": "trel_jup_ev",
+  "kind": "theory_relation",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 5: Inter-Document Argument Web",
+  "payload": {
+    "relation_id": "trel_jup_ev",
+    "source_component_id": "APP_JUP_V1",
+    "relation_type": "MATCHES_EVIDENCE",
+    "target_component_id": "EV_JUPITER",
+    "weight": 1.0,
+    "confidence": 1.0,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

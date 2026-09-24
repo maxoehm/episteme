@@ -1,0 +1,20 @@
+{
+  "artifact_id": "doc_psychology",
+  "identity_key": "doc_psychology",
+  "kind": "document",
+  "run_id": "run-demo-psychology",
+  "phase_name": "Phase 1: Data Foundation",
+  "payload": {
+    "id": "doc_psychology",
+    "title": "Paradigm Shifts in Psychology: Phobia Etiology Models",
+    "filename": "psychology_paradigms.cypher",
+    "author": "Sigmund Freud / B.F. Skinner / Joseph LeDoux"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-psychology.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}

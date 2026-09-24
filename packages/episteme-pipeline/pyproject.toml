@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["episteme_pipeline*"]
+
+[project]
+name = "episteme-pipeline"
+version = "0.1.0"
+description = "Episteme pipeline engine"
+requires-python = ">=3.13"
+dependencies = [
+    "graspologic>=3.3.0",
+    "ipykernel>=7.3.0",
+    "langfuse==4.15.0",
+    "llama-index-embeddings-litellm>=0.5.0",
+    "llama-index-embeddings-ollama>=0.9.0",
+    "llama-index-embeddings-openai>=0.6.0",
+    "llama-index-embeddings-openai-like>=0.3.1",
+    "llama-index-llms-litellm>=0.7.1",
+    "llama-index-llms-ollama>=0.10.1",
+    "llama-index-llms-openai==0.7.10",
+    "llama-index-llms-openai-like>=0.7.2",
+    "mteb==2.20.5",
+    "neo4j==6.3.0",
+    "nest-asyncio>=1.6.0",
+    "networkx[default]>=3.6.1",
+    "nltk==3.10.3",
+    "numpy>=2.5.2",
+    "ogb>=1.3.6",
+    "ollama>=0.6.1",
+    "openinference-instrumentation-llama-index==4.4.8",
+    "pandas-stubs==3.0.5.260730",
+    "pydantic-settings>=2.15.0",
+    "python-dotenv>=1.2.2",
+    "pyvis>=0.3.2",
+    "rich>=15.0.0",
+    "sentence-transformers==6.0.1",
+    "tiktoken==0.14.0",
+    "tqdm>=4.70.0",
+    "epistemetrics",
+    "igraph>=1.0.0",
+]
+
+[tool.uv.sources]
+epistemetrics = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pytest-asyncio==1.4.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]

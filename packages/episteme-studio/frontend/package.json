@@ -1,0 +1,42 @@
+{
+  "name": "episteme-studio-frontend",
+  "private": true,
+  "version": "0.1.2",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "generate-api": "openapi-typescript http://127.0.0.1:8000/openapi.json -o src/api/generated.d.ts"
+  },
+  "dependencies": {
+    "@antv/g6": "^5.1.1",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@langfuse/client": "^5.11.1",
+    "@neo4j-cypher/react-codemirror": "^2.0.0-next.40",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-table": "^9.2.4",
+    "@tanstack/react-virtual": "^3.14.10",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "echarts": "^6.1.0",
+    "lucide-react": "^1.41.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.5.5",
+    "openapi-typescript": "^7.13.0",
+    "postcss": "^8.5.25",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.3",
+    "vite": "^8.2.2"
+  }
+}

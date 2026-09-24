@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+:root {
+  color-scheme: dark;
+
+  /* Epistemic IDE Dark Mode (ROMER Analytical Console) */
+  --color-app-bg: #09090b;
+  --color-app-surface: #121215;
+  --color-app-subtle: #1c1c21;
+  --color-app-hover: #26262d;
+  --color-app-border: rgba(255, 255, 255, 0.07);
+  --color-app-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-app-text: #f4f4f5;
+  --color-app-muted: #71717a;
+  --color-app-heading: #fafafa;
+  --color-app-rail: #0d0d10;
+
+  --scrollbar-track: #09090b;
+  --scrollbar-thumb: #27272a;
+  --scrollbar-thumb-hover: #3f3f46;
+}
+
+:root[data-theme="light"],
+html.light {
+  color-scheme: light;
+
+  /* Epistemic IDE Light Mode (Scientific Monograph) */
+  --color-app-bg: #f4f5f7;
+  --color-app-surface: #ffffff;
+  --color-app-subtle: #eaecee;
+  --color-app-hover: #e1e4e8;
+  --color-app-border: rgba(0, 0, 0, 0.08);
+  --color-app-border-subtle: rgba(0, 0, 0, 0.04);
+  --color-app-text: #18181b;
+  --color-app-muted: #71717a;
+  --color-app-heading: #09090b;
+  --color-app-rail: #eff1f4;
+
+  --scrollbar-track: #f4f5f7;
+  --scrollbar-thumb: #d4d4d8;
+  --scrollbar-thumb-hover: #a1a1aa;
+}
+
+@theme {
+  --font-display: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-app-bg: var(--color-app-bg);
+  --color-app-surface: var(--color-app-surface);
+  --color-app-subtle: var(--color-app-subtle);
+  --color-app-hover: var(--color-app-hover);
+  --color-app-border: var(--color-app-border);
+  --color-app-border-subtle: var(--color-app-border-subtle);
+  --color-app-text: var(--color-app-text);
+  --color-app-muted: var(--color-app-muted);
+  --color-app-heading: var(--color-app-heading);
+  --color-app-rail: var(--color-app-rail);
+}
+
+/* Global font defaults: apply the app's Inter (font-sans) everywhere it is not overridden. */
+@layer base {
+  :root, body {
+    font-family: var(--font-sans);
+  }
+  code, kbd, samp, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Typography Utility Presets (from design.md) */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.type-h1 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.type-h2 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.type-body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.type-body-tabular {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  font-feature-settings: "tnum" 1;
+}
+
+.type-caption {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 400;
+}
+
+.type-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Precision analytical range slider styling */
+input[type="range"].precision-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  height: 14px;
+}
+
+input[type="range"].precision-slider:focus {
+  outline: none;
+}
+
+/* Track: strict 1.5px neutral hairline */
+input[type="range"].precision-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: var(--color-app-border);
+  border-radius: 0;
+}
+
+input[type="range"].precision-slider::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  background: var(--color-app-border);
+  border-radius: 0;
+}
+
+/* Thumb: strict geometric 8px x 14px rectangular tick */
+input[type="range"].precision-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 14px;
+  background: var(--color-app-heading);
+  border: 1px solid var(--color-app-border);
+  border-radius: 1px;
+  margin-top: -6px;
+  transition: background-color 0.1s ease;
+}
+
+input[type="range"].precision-slider::-moz-range-thumb {
+  width: 8px;
+  height: 14px;
+  background: var(--color-app-heading);
+  border: 1px solid var(--color-app-border);
+  border-radius: 1px;
+  transition: background-color 0.1s ease;
+}
+
+input[type="range"].precision-slider:hover::-webkit-slider-thumb {
+  background: #3b82f6;
+}
+
+input[type="range"].precision-slider:hover::-moz-range-thumb {
+  background: #3b82f6;
+}
+
+/* CodeMirror Prompt Template Variable Syntax Highlighting */
+.cm-template-variable {
+  background-color: rgba(6, 182, 212, 0.18);
+  color: #22d3ee;
+  border-radius: 3px;
+  padding: 1px 3px;
+  font-weight: 600;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+:root[data-theme="light"] .cm-template-variable,
+html.light .cm-template-variable {
+  background-color: rgba(8, 145, 178, 0.12);
+  color: #0e7490;
+  border: 1px solid rgba(8, 145, 178, 0.35);
+}

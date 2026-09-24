@@ -1,0 +1,22 @@
+{
+  "artifact_id": "rel_core_evolves",
+  "identity_key": "rel_core_evolves",
+  "kind": "global_relation",
+  "run_id": "run-demo-physics",
+  "phase_name": "Phase 3: Global Relation Extraction",
+  "payload": {
+    "relation_id": "rel_core_evolves",
+    "subject_entity_id": "CORE_N_V1",
+    "predicate": "EVOLVES_TO",
+    "object_entity_id": "CORE_N_V2",
+    "confidence": 0.95,
+    "scope": "global"
+  },
+  "provenance": {
+    "source_path": "datasets/run-demo-physics.cypher",
+    "notes": {
+      "generated": "demo_fixture"
+    }
+  },
+  "created_at": "2026-09-01T10:00:00Z"
+}
