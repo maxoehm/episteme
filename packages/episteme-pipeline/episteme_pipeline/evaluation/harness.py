@@ -24,6 +24,7 @@ from episteme_pipeline.evaluation.benchmarks.structuralist import load_structura
 from episteme_pipeline.evaluation.models import (
     DatasetType,
     EvaluationLevel,
+    EvaluationMetric,
     EvaluationOutcome,
     EvaluationReport,
     EvaluationResult,
@@ -34,6 +35,7 @@ from episteme_pipeline.evaluation.pipelines import (
     build_l4_theorynet_eval_pipeline,
 )
 from episteme_pipeline.evaluation.scorers.domain_bridge import (
+    artifact_collection_to_theory_graph,
     l2_triples_to_digraph,
     theory_net_to_digraph,
 )
@@ -223,6 +225,7 @@ class EvaluationHarness(EvaluationHarnessProtocol):
             artifacts = getattr(exec_result, "artifacts", None)
 
         # Intrinsic scoring
+        downstream_results: list[EvaluationResult] = []
         if gold_path and os.path.exists(gold_path):
             if dataset_type == "structuralist":
                 chunks, gold_graph = load_structuralist_benchmark(gold_path)
@@ -244,12 +247,80 @@ class EvaluationHarness(EvaluationHarnessProtocol):
                 )
                 report_results.append(stage_result)
 
+                # Extrinsic competency query evaluation
+                queries_path = corpus_cfg.get("queries_path")
+                if not queries_path:
+                    cand_path = Path(gold_path).parent / "stnb_cpm_queries.yaml"
+                    if cand_path.is_file():
+                        queries_path = str(cand_path)
+                    else:
+                        cand_path = Path(__file__).parent / "data" / "stnb_cpm_queries.yaml"
+                        if cand_path.is_file():
+                            queries_path = str(cand_path)
+
+                if queries_path and os.path.isfile(queries_path):
+                    with open(queries_path, "r", encoding="utf-8") as qf:
+                        q_data = yaml.safe_load(qf)
+                    queries = q_data.get("queries", [])
+                    if queries:
+                        retrieval_eval = self.retrieval_scorer or ExtrinsicRetrievalEvaluator(
+                            graph_reader=self.graph_store
+                        )
+                        # Ensure graph store has the target nodes indexed for search
+                        if hasattr(self.graph_store, "index_theory_graph"):
+                            if artifacts is not None:
+                                tg = artifact_collection_to_theory_graph(artifacts)
+                                self.graph_store.index_theory_graph(tg, run_id=run_id)
+                            elif hasattr(predicted_target, "atoms") and predicted_target.atoms:
+                                self.graph_store.index_theory_graph(predicted_target, run_id=run_id)
+                            elif isinstance(gold_graph, (nx.DiGraph, nx.Graph)):
+                                self.graph_store.index_theory_graph(gold_graph, run_id=run_id)
+
+                        retrieval_metrics = await retrieval_eval.evaluate_batch(
+                            queries, top_k=10, run_id=run_id
+                        )
+
+                        downstream_result = EvaluationResult(
+                            run_id=run_id,
+                            evaluation_level=EvaluationLevel.DOWNSTREAM,
+                            phase_name="Extrinsic Retrieval: STNB Competency",
+                            dataset_ref=str(queries_path),
+                            dataset_type=DatasetType.GOLD,
+                            metrics=[
+                                EvaluationMetric(name="mrr", value=retrieval_metrics.get("MRR", 0.0)),
+                                EvaluationMetric(name="hits@1", value=retrieval_metrics.get("Hits@1", 0.0)),
+                                EvaluationMetric(name="hits@3", value=retrieval_metrics.get("Hits@3", 0.0)),
+                                EvaluationMetric(name="hits@10", value=retrieval_metrics.get("Hits@10", 0.0)),
+                                EvaluationMetric(name="ndcg", value=retrieval_metrics.get("nDCG", 0.0)),
+                            ],
+                            outcome=EvaluationOutcome.PASS if retrieval_metrics.get("MRR", 0.0) > 0.0 else EvaluationOutcome.WARNING,
+                            notes={
+                                "category": "extrinsic_retrieval",
+                                "markdown_report": (
+                                    "## STNB Competency Retrieval Evaluation Report\n\n"
+                                    f"- **MRR:** {retrieval_metrics.get('MRR', 0.0):.4f}\n"
+                                    f"- **Hits@1:** {retrieval_metrics.get('Hits@1', 0.0):.4f}\n"
+                                    f"- **Hits@3:** {retrieval_metrics.get('Hits@3', 0.0):.4f}\n"
+                                    f"- **Hits@10:** {retrieval_metrics.get('Hits@10', 0.0):.4f}\n"
+                                    f"- **nDCG:** {retrieval_metrics.get('nDCG', 0.0):.4f}\n"
+                                ),
+                            },
+                        )
+                        downstream_results.append(downstream_result)
+
         # Validation checks
         violations = await self._run_validation()
 
         # Build final report
+        results_by_level: dict[str, list[EvaluationResult]] = {}
+        if report_results:
+            results_by_level[EvaluationLevel.STAGE] = report_results
+        if downstream_results:
+            results_by_level[EvaluationLevel.DOWNSTREAM] = downstream_results
+
+        all_results = report_results + downstream_results
         metrics_all: dict[str, float] = {}
-        for res in report_results:
+        for res in all_results:
             for m in res.metrics:
                 metrics_all[m.name] = m.value
 
@@ -258,8 +329,8 @@ class EvaluationHarness(EvaluationHarnessProtocol):
             run_ids=[run_id],
             dataset_ref=gold_path,
             dataset_type=DatasetType.GOLD,
-            results_by_level={EvaluationLevel.STAGE: report_results},
-            summary="\n\n".join(r.notes.get("markdown_report", "") for r in report_results),
+            results_by_level=results_by_level,
+            summary="\n\n".join(r.notes.get("markdown_report", "") for r in all_results),
         )
 
         self._persist_reports(report, manifest_path=str(manifest_path))

@@ -52,7 +52,7 @@ class InMemoryGraphStore(ProcessingGraph):
     async def get_neighborhood(self, node_id: str, depth: int = 1) -> SubGraph:
         return SubGraph(center_id=node_id, nodes=[], triples=[], depth=depth)
 
-    async def vector_search(self, embedding, top_k, node_label=None) -> list[SearchResult]:
+    async def vector_search(self, embedding, top_k, node_label=None, run_id=None) -> list[SearchResult]:
         return []
 
     async def upsert_node(

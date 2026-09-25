@@ -968,11 +968,26 @@ class _Neo4jReadMixin:
             result = await session.run(query, node_id=node_id, depth=depth)
             return await result.data()
 
-    async def vector_search(self, embedding: list[float], top_k: int, node_label: str | None = None) -> list[SearchResult]:
-        where_clause = ""
+    async def vector_search(
+        self,
+        embedding: list[float],
+        top_k: int,
+        node_label: str | None = None,
+        run_id: str | None = None,
+    ) -> list[SearchResult]:
+        where_conditions: list[str] = []
+        params: dict[str, Any] = {"index": "chunk_embedding", "k": top_k, "embedding": embedding}
         if node_label:
             safe_label = _cypher_identifier(node_label, kind="label")
-            where_clause = f"WHERE node:`{safe_label}` "
+            where_conditions.append(f"node:`{safe_label}`")
+        if run_id:
+            where_conditions.append("node.run_id = $run_id")
+            params["run_id"] = run_id
+
+        where_clause = ""
+        if where_conditions:
+            where_clause = "WHERE " + " AND ".join(where_conditions) + " "
+
         query = (
             "CALL db.index.vector.queryNodes($index, $k, $embedding) "
             "YIELD node, score "
@@ -982,7 +997,7 @@ class _Neo4jReadMixin:
             "coalesce(node.name, node.id) as node_name"
         )
         async with self._session() as session:
-            result = await session.run(query, index="chunk_embedding", k=top_k, embedding=embedding)
+            result = await session.run(query, **params)
             rows = await result.data()
         return [
             SearchResult(node_id=row["node_id"], score=row["score"], node_label=row["node_label"], node_name=row["node_name"])

@@ -32,8 +32,15 @@ from epistemetrics.core.models import (
     TheoryNode,
 )
 from epistemetrics.epistemic import (
+    DynamicsEvaluationResult,
     ModelComponentEvaluationResult,
+    PosetEvaluationResult,
+    ReductionEvaluationResult,
+    evaluate_diachronic_dynamics,
+    evaluate_intertheoretical_links,
     evaluate_model_components,
+    evaluate_specialization_poset,
+    verify_hard_core_invariance,
 )
 from epistemetrics.graph.algorithms import (
     AdaptiveAlgorithmsEngine,
@@ -62,6 +69,16 @@ __all__ = [
     # Epistemic model component evaluation
     "ModelComponentEvaluationResult",
     "evaluate_model_components",
+    # Poset specialization hierarchies
+    "PosetEvaluationResult",
+    "evaluate_specialization_poset",
+    # Intertheoretical link prediction
+    "ReductionEvaluationResult",
+    "evaluate_intertheoretical_links",
+    # Diachronic dynamics & degeneration
+    "DynamicsEvaluationResult",
+    "evaluate_diachronic_dynamics",
+    "verify_hard_core_invariance",
     # Engines
     "AdaptiveAlgorithmsEngine",
     "GraphAlgorithmsEngine",

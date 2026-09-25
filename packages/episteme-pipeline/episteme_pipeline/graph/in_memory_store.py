@@ -6,6 +6,9 @@ requiring a running Neo4j instance or network connectivity.
 
 from __future__ import annotations
 
+import hashlib
+import math
+import re
 from typing import Any
 
 from episteme_pipeline.contracts.domain import (
@@ -21,6 +24,38 @@ from episteme_pipeline.contracts.domain import (
 from episteme_pipeline.protocols.graph_store import ProcessingGraph
 
 
+def deterministic_text_embedding(text: str, dim: int = 128) -> list[float]:
+    """Compute a deterministic hash-based unit embedding for offline testing.
+
+    Parameters
+    ----------
+    text : str
+        Input textual string.
+    dim : int, optional
+        Dimensionality of the embedding vector (default: 128).
+
+    Returns
+    -------
+    list of float
+        L2-normalized embedding vector.
+    """
+    if not text:
+        return [0.0] * dim
+    vec = [0.0] * dim
+    tokens = re.findall(r"\w+", text.lower())
+    if not tokens:
+        return [0.0] * dim
+    for tok in tokens:
+        h = int(hashlib.md5(tok.encode("utf-8")).hexdigest(), 16)
+        idx = h % dim
+        sign = 1.0 if (h >> 7) & 1 else -1.0
+        vec[idx] += sign
+    norm = math.sqrt(sum(x * x for x in vec))
+    if norm > 0:
+        vec = [x / norm for x in vec]
+    return vec
+
+
 class InMemoryGraphStore(ProcessingGraph):
     """In-memory graph store for offline execution and evaluation."""
 
@@ -34,6 +69,8 @@ class InMemoryGraphStore(ProcessingGraph):
         self._processed_chunks: dict[str, set[str]] = {}  # chunk_id -> set of phase tags
         self._processed_items: dict[str, dict[str, PhaseItemRecord]] = {}
         self._nodes: dict[str, dict[str, Any]] = {}
+        self._embeddings: dict[str, list[float]] = {}
+        self._node_run_ids: dict[str, str] = {}
 
     async def close(self) -> None:
         """Close handle (no-op for in-memory)."""
@@ -79,18 +116,183 @@ class InMemoryGraphStore(ProcessingGraph):
         embedding: list[float],
         top_k: int,
         node_label: str | None = None,
+        run_id: str | None = None,
     ) -> list[SearchResult]:
-        results: list[SearchResult] = []
-        for ent in list(self._entities.values())[:top_k]:
-            results.append(
+        """Search in-memory entities, atoms, and nodes using embedding cosine similarity."""
+        candidates: dict[str, dict[str, Any]] = {}
+
+        # 1. Ingest entities
+        for ent in self._entities.values():
+            candidates[ent.id] = {
+                "node_id": ent.id,
+                "node_label": ent.label,
+                "node_name": ent.name or ent.id,
+                "text": f"{ent.name or ''} {ent.description or ''} {ent.textual_envelope or ''}".strip(),
+                "run_id": self._node_run_ids.get(ent.id),
+            }
+
+        # 2. Ingest theory atoms
+        for atom in self._theory_atoms.values():
+            if atom.id not in candidates:
+                candidates[atom.id] = {
+                    "node_id": atom.id,
+                    "node_label": atom.component_type,
+                    "node_name": atom.id,
+                    "text": atom.text or atom.id,
+                    "run_id": self._node_run_ids.get(atom.id),
+                }
+
+        # 3. Ingest generic nodes
+        for nid, props in self._nodes.items():
+            if nid not in candidates:
+                txt = f"{props.get('name', '')} {props.get('label', '')} {props.get('formalAxiom', '')} {props.get('description', '')}"
+                if isinstance(props.get("textAnchor"), dict):
+                    txt += " " + str(props["textAnchor"].get("verbatimQuote", ""))
+                candidates[nid] = {
+                    "node_id": nid,
+                    "node_label": str(props.get("label", "Concept")),
+                    "node_name": str(props.get("name", nid)),
+                    "text": txt.strip(),
+                    "run_id": props.get("run_id") or self._node_run_ids.get(nid),
+                }
+
+        # Filter by run_id if specified
+        if run_id:
+            candidates = {k: v for k, v in candidates.items() if v.get("run_id") == run_id}
+
+        # Filter by node_label if specified
+        if node_label:
+            nl_lower = node_label.lower()
+            candidates = {
+                k: v for k, v in candidates.items() if nl_lower in v["node_label"].lower()
+            }
+
+        scored_results: list[SearchResult] = []
+        for nid, cand in candidates.items():
+            c_emb = self._embeddings.get(nid)
+            if not c_emb and cand["text"]:
+                c_emb = deterministic_text_embedding(
+                    cand["text"], dim=len(embedding) if embedding else 128
+                )
+                self._embeddings[nid] = c_emb
+
+            score = 1.0
+            if embedding and c_emb:
+                dot = sum(a * b for a, b in zip(embedding, c_emb))
+                score = max(0.0, float(dot))
+
+            scored_results.append(
                 SearchResult(
-                    node_id=ent.id,
-                    score=1.0,
-                    node_label=ent.label,
-                    node_name=ent.name or ent.id,
+                    node_id=cand["node_id"],
+                    score=score,
+                    node_label=cand["node_label"],
+                    node_name=cand["node_name"],
                 )
             )
-        return results
+
+        scored_results.sort(key=lambda r: r.score, reverse=True)
+        return scored_results[:top_k]
+
+    def index_theory_graph(self, graph: Any, run_id: str | None = None) -> None:
+        """Index a TheoryGraph, NetworkX DiGraph, or TheoryNet into this store for search.
+
+        Parameters
+        ----------
+        graph : Any
+            The graph or theory net container.
+        run_id : str | None, optional
+            Run identifier to associate with indexed nodes.
+        """
+        if hasattr(graph, "atoms"):
+            for atom in graph.atoms:
+                self._theory_atoms[atom.id] = atom
+                if run_id:
+                    self._node_run_ids[atom.id] = run_id
+                txt = f"{atom.id} {atom.component_type} {atom.text or ''}"
+                self._embeddings[atom.id] = deterministic_text_embedding(txt)
+            if hasattr(graph, "relations"):
+                for rel in graph.relations:
+                    self._theory_relations.append(rel)
+
+        elif hasattr(graph, "nodes") and callable(getattr(graph, "nodes")):
+            for nid, data in graph.nodes(data=True):
+                node_id = str(nid)
+                lbl = str(data.get("label", data.get("node_type", "Concept")))
+                name = str(data.get("name", node_id))
+                axiom = str(data.get("formalAxiom", data.get("formal_axiom", "")))
+                quote = ""
+                anchor = data.get("anchor") or data.get("textAnchor")
+                if isinstance(anchor, dict):
+                    quote = str(anchor.get("verbatimQuote", anchor.get("quote", "")))
+
+                txt = f"{name} {lbl} {axiom} {quote}".strip()
+                self._nodes[node_id] = {
+                    "label": lbl,
+                    "name": name,
+                    "formalAxiom": axiom,
+                    "run_id": run_id,
+                    **data,
+                }
+                if run_id:
+                    self._node_run_ids[node_id] = run_id
+                self._embeddings[node_id] = deterministic_text_embedding(txt)
+
+                # Populate theory atoms for model components
+                chunk_id = anchor.get("chunkId", "") if isinstance(anchor, dict) else ""
+                self._theory_atoms[node_id] = TheoryAtom(
+                    id=node_id,
+                    text=axiom or quote or name,
+                    component_type=lbl,
+                    source_chunk_id=chunk_id or f"chunk_{node_id}",
+                    confidence=float(data.get("confidence", 1.0)),
+                )
+
+            for u, v, edata in graph.edges(data=True):
+                rel_str = str(edata.get("relation", edata.get("label", "explains")))
+                scope_val = edata.get("scope", "global")
+                self._theory_relations.append(
+                    TheoryRelation(
+                        source_id=str(u),
+                        target_id=str(v),
+                        relation_type=rel_str,
+                        confidence=float(edata.get("confidence", 1.0)),
+                        scope=scope_val if scope_val in ("local", "global") else "global",
+                    )
+                )
+
+        elif hasattr(graph, "nodes") and isinstance(graph.nodes, dict):
+            for nid, node in graph.nodes.items():
+                node_id = str(nid)
+                txt = f"{node.name} {node.node_type} {node.description or ''}"
+                self._nodes[node_id] = {
+                    "label": str(node.node_type),
+                    "name": node.name,
+                    "description": node.description,
+                    "run_id": run_id,
+                    **dict(node.attributes),
+                }
+                if run_id:
+                    self._node_run_ids[node_id] = run_id
+                self._embeddings[node_id] = deterministic_text_embedding(txt)
+                self._theory_atoms[node_id] = TheoryAtom(
+                    id=node_id,
+                    text=node.description or node.name,
+                    component_type=str(node.node_type),
+                    source_chunk_id=node.provenance[0] if node.provenance else f"chunk_{node_id}",
+                    confidence=node.confidence,
+                )
+
+            for edge in graph.edges:
+                edge_scope = edge.attributes.get("scope", "global")
+                self._theory_relations.append(
+                    TheoryRelation(
+                        source_id=str(edge.source),
+                        target_id=str(edge.target),
+                        relation_type=str(edge.relation_type),
+                        confidence=edge.confidence,
+                        scope=edge_scope if edge_scope in ("local", "global") else "global",
+                    )
+                )
 
     async def get_theory_atoms(self) -> list[TheoryAtom]:
         return list(self._theory_atoms.values())

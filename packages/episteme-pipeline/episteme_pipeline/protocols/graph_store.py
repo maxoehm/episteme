@@ -78,6 +78,7 @@ class GraphReader(GraphHandle, ABC):
         embedding: list[float],
         top_k: int,
         node_label: str | None = None,
+        run_id: str | None = None,
     ) -> list[SearchResult]: ...
 
     @abstractmethod

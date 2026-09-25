@@ -113,7 +113,16 @@ class ModelScorer:
         EvaluationResult
             Structured result model ready for inclusion in an EvaluationReport.
         """
-        eval_result = self.evaluate(predicted, gold)
+        pred_graph = self._ensure_theory_graph(predicted, name="PredictedTheoryGraph")
+        gold_graph = self._ensure_gold_theory_graph(gold, name="GoldReferenceGraph")
+
+        eval_result = em.evaluate_model_components(
+            pred_graph=pred_graph,
+            ref_graph=gold_graph,
+            min_mcc=self.min_mcc,
+            min_pfs=self.min_pfs,
+            sim_threshold=self.sim_threshold,
+        )
         outcome = EvaluationOutcome.PASS if eval_result.is_subsumed else EvaluationOutcome.FAIL
 
         metrics = [
@@ -154,6 +163,49 @@ class ModelScorer:
             ),
         ]
 
+        notes = {
+            "markdown_report": eval_result.to_markdown(),
+            "subsumption_status": "subsumed" if eval_result.is_subsumed else "deficit",
+        }
+
+        try:
+            poset_result = em.evaluate_specialization_poset(pred_graph, gold_graph)
+            if poset_result and (poset_result.num_reference_edges > 0 or poset_result.num_predicted_edges > 0):
+                metrics.extend([
+                    EvaluationMetric(
+                        name="poset_f1",
+                        value=poset_result.f1,
+                        unit="ratio",
+                        threshold=0.8,
+                        passes_threshold=poset_result.f1 >= 0.8,
+                    ),
+                    EvaluationMetric(
+                        name="poset_reachability_f1",
+                        value=poset_result.reachability_f1,
+                        unit="ratio",
+                        threshold=0.8,
+                        passes_threshold=poset_result.reachability_f1 >= 0.8,
+                    ),
+                    EvaluationMetric(
+                        name="root_conformity",
+                        value=1.0 if poset_result.root_conformity else 0.0,
+                        unit="bool",
+                        threshold=1.0,
+                        passes_threshold=poset_result.root_conformity,
+                    ),
+                    EvaluationMetric(
+                        name="is_dag",
+                        value=1.0 if poset_result.is_dag else 0.0,
+                        unit="bool",
+                        threshold=1.0,
+                        passes_threshold=poset_result.is_dag,
+                    ),
+                ])
+                notes["poset_markdown"] = poset_result.to_markdown()
+                notes["markdown_report"] += "\n\n" + poset_result.to_markdown()
+        except Exception:
+            pass
+
         error_buckets = []
         if eval_result.unmatched_ref_nodes:
             error_buckets.append(
@@ -163,11 +215,6 @@ class ModelScorer:
                     description=", ".join(eval_result.unmatched_ref_nodes),
                 )
             )
-
-        notes = {
-            "markdown_report": eval_result.to_markdown(),
-            "subsumption_status": "subsumed" if eval_result.is_subsumed else "deficit",
-        }
 
         return EvaluationResult(
             run_id=run_id,

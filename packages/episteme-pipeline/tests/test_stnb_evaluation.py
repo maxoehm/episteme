@@ -30,7 +30,7 @@ from episteme_pipeline.evaluation.benchmarks.structuralist import (
     structuralist_digraph_to_theory_graph,
 )
 from episteme_pipeline.evaluation.harness import EvaluationHarness
-from episteme_pipeline.evaluation.models import DatasetType, EvaluationOutcome
+from episteme_pipeline.evaluation.models import DatasetType, EvaluationLevel, EvaluationOutcome
 from episteme_pipeline.evaluation.pipelines import (
     build_l2_eval_pipeline,
     build_l3_eval_pipeline,
@@ -559,3 +559,120 @@ class TestPackagingAndInMemoryExecutionIssue028:
         assert "Phase 2: Entity & Local Relation Discovery" in phase_names[1]
         assert "Phase 3: Global Relation Extraction" in phase_names[2]
         assert "Phase 6: TheoryNet Projection" in phase_names[-1]
+
+
+# ===========================================================================
+# ISSUE-031 & ISSUE-032: Poset Specialization & Extrinsic Competency Testbed
+# ===========================================================================
+
+
+class TestSTNBIssue031PosetSpecialization:
+    """Test suite for ISSUE-031 specialization poset evaluation on STNB pilot data."""
+
+    def test_stnb_cpm_pilot_poset_properties(self):
+        """Verify specialization tree in stnb_cpm_pilot conforms to strict poset properties."""
+        cpm_gold_path = (
+            "packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld"
+        )
+        _, tg = load_structuralist_theory_graph(cpm_gold_path)
+
+        poset_res = em.evaluate_specialization_poset(
+            pred_graph=tg,
+            ref_graph=tg,
+            gold_root_id="str:T_CPM_Base",
+        )
+
+        assert poset_res.is_dag is True
+        assert poset_res.is_strict_partial_order is True
+        assert poset_res.has_unique_root is True
+        assert poset_res.root_node == "str:T_CPM_Base"
+        assert poset_res.root_conformity is True
+        assert poset_res.num_predicted_edges == 3
+        assert poset_res.f1 == 1.0
+        assert poset_res.reachability_f1 == 1.0
+        assert poset_res.hierarchical_subsumption_valid is True
+        assert poset_res.hierarchical_subsumption_score == 1.0
+        assert len(poset_res.cycles) == 0
+
+
+class TestSTNBIssue032CompetencyRetrieval:
+    """Test suite for ISSUE-032 competency query testbed and extrinsic retrieval."""
+
+    def test_stnb_cpm_queries_file_integrity(self):
+        """Verify stnb_cpm_queries.yaml contains valid queries matching pilot node IDs."""
+        queries_path = (
+            "packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_queries.yaml"
+        )
+        cpm_gold_path = (
+            "packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld"
+        )
+
+        assert Path(queries_path).is_file()
+        with open(queries_path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+
+        queries = data.get("queries", [])
+        assert len(queries) >= 5
+
+        # Check every query has mandatory fields
+        _, gold_graph = load_structuralist_benchmark(cpm_gold_path)
+        gold_node_ids = set(gold_graph.nodes())
+
+        for q in queries:
+            assert "id" in q
+            assert "query" in q and len(q["query"]) > 10
+            assert "gold_target_ids" in q and len(q["gold_target_ids"]) > 0
+            assert "category" in q
+
+            # Verify target IDs exist in gold graph
+            for target_id in q["gold_target_ids"]:
+                assert target_id in gold_node_ids, f"Target ID '{target_id}' missing in gold graph"
+
+    @pytest.mark.asyncio
+    async def test_evaluation_harness_manifest_with_competency_queries(self, tmp_path: Path):
+        """Verify evaluate_manifest runs both intrinsic scoring and extrinsic competency retrieval."""
+        manifest_path = (
+            "packages/episteme-pipeline/episteme_pipeline/evaluation/manifests/eval_stnb.yaml"
+        )
+        cpm_gold_path = (
+            "packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld"
+        )
+        harness = EvaluationHarness(reports_dir=tmp_path / "reports")
+        _, gold_graph = load_structuralist_benchmark(cpm_gold_path)
+        harness.graph_store.index_theory_graph(gold_graph)
+
+        report = await harness.evaluate_manifest(manifest_path, build_graph=False)
+
+        assert report.evaluation_id.startswith("eval_")
+        assert EvaluationLevel.STAGE in report.results_by_level
+        assert EvaluationLevel.DOWNSTREAM in report.results_by_level
+
+        # Stage intrinsic results
+        stage_res = report.results_by_level[EvaluationLevel.STAGE][0]
+        stage_metrics = {m.name: m.value for m in stage_res.metrics}
+        assert stage_metrics["mcc"] == 1.0
+        assert stage_metrics["aor"] == 0.0
+        assert "poset_f1" in stage_metrics
+        assert stage_metrics["poset_f1"] == 1.0
+        assert stage_metrics["root_conformity"] == 1.0
+
+        # Downstream extrinsic retrieval results
+        downstream_res = report.results_by_level[EvaluationLevel.DOWNSTREAM][0]
+        downstream_metrics = {m.name: m.value for m in downstream_res.metrics}
+        assert "mrr" in downstream_metrics
+        assert "hits@1" in downstream_metrics
+        assert "hits@3" in downstream_metrics
+        assert "hits@10" in downstream_metrics
+        assert "ndcg" in downstream_metrics
+
+        for m_name, val in downstream_metrics.items():
+            assert 0.0 <= val <= 1.0, f"Metric {m_name} out of bounds: {val}"
+
+        # MRR should be positive since nodes are indexed
+        assert downstream_metrics["mrr"] > 0.0
+        assert downstream_metrics["hits@10"] > 0.0
+
+        # Reports persisted
+        assert (tmp_path / "reports" / f"report_{report.run_ids[0]}.json").is_file()
+        assert (tmp_path / "reports" / f"report_{report.run_ids[0]}.md").is_file()
+
