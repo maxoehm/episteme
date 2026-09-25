@@ -6,7 +6,7 @@ This document details the engineering and architectural implementation of **Cons
 
 ---
 
-## 1. Architectural Challenge & Strategy
+## Architectural Challenge & Strategy
 
 As established in our research review, enforcing strict JSON output schemas during reasoning-intensive LLM tasks
 significantly degrades extraction performance due to the suppression of natural language Chain-of-Thought (CoT). Constrained grammars restrict the sampling space and disrupt the internal attention representations necessary for nuanced philosophical argument extraction.
@@ -28,7 +28,7 @@ flowchart LR
 
 ---
 
-## 2. The Decoupled Pipeline
+## The Decoupled Pipeline
 
 The extraction process is split into two logical phases (which may occur in one single-pass trigger-token call or two chained calls depending on handler configuration):
 
@@ -44,7 +44,7 @@ The extraction process is split into two logical phases (which may occur in one 
 
 ---
 
-## 3. Implementation Flags & Handlers
+## Implementation Flags & Handlers
 
 To remain agile and support empirical experimentation, the pipeline utilizes handler flags in `PipelineConfig` to configure the decoding strategy dynamically:
 
@@ -54,13 +54,13 @@ To remain agile and support empirical experimentation, the pipeline utilizes han
 
 ---
 
-## 4. Input Context Formatting
+## Input Context Formatting
 
 When constructing the prompt envelope (providing episodic memory, existing sub-graphs, or schema exemplars), we format this contextual data as **JSON**. Research indicates (Narvekar et al., 2025) that models, particularly smaller ones, parse and utilize context much more effectively when structured as JSON rather than flat unstructured text.
 
 ---
 
-## 5. Resilience & Fault Tolerance
+## Resilience & Fault Tolerance
 
 * **Constraint Enforcement**: We utilize established tools for constrained decoding (e.g., `guidance`, `outlines`, or provider-specific APIs like OpenAI / Anthropic Structured Outputs via LiteLLM) to guarantee adherence to our Pydantic domain models during the formatting phase.
 * **Failure Strategy**: The pipeline includes a deterministic failure mitigation strategy for schema non-compliance during the conversion phase:

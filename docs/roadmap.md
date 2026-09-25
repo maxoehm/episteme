@@ -104,7 +104,7 @@ and deepening gradual argumentation semantics.
 | **Gradual Semantics Solvers (QBAF)**           | `epistemetrics` / `episteme-pipeline` | `Under Evaluation` | Iterative convergence algorithms for TheoryNet $(\text{TF} = (\text{At}, R))$ |
 | **Streaming Large Corpus Ingestion**           | `episteme-pipeline`                   | `Under Evaluation` | Memory-bounded chunking & windowed episodic memory eviction                   |
 | **Pluggable Vector Store Adapters**            | `episteme-pipeline`                   | `Under Evaluation` | Qdrant, Milvus, and pgvector reference implementations                        |
-| **TypeSafe / Jev Typed Classification Engine** | `episteme-pipeline`                   | `Under Evaluation` | Non-generative sub-second typed classification (`JevClassifier`)              |
+| **TypeSafe / Jev Classification & Gating**     | `episteme-pipeline`                   | `Under Evaluation` | Sub-second typed classification & decision gating (`JevClassifier`)           |
 
 ---
 
@@ -204,16 +204,16 @@ Supports specialized vector backends alongside Neo4j.
 
 ---
 
-### TypeSafe / Jev Typed Classification Engine (`JevClassifier`)
+### TypeSafe / Jev Typed Classification & Gating Engine (`JevClassifier`)
 
-| Status             | Target Component                                                                               | Focus Area                        |
-|:-------------------|:-----------------------------------------------------------------------------------------------|:----------------------------------|
-| `Under Evaluation` | `episteme-pipeline` (`pipeline/protocols/extractors.py`, `pipeline/phases/phase4_argument_mining/`) | Ultra-Low Latency Typed Inference |
+| Status             | Target Component                                                                                   | Focus Area                                 |
+|:-------------------|:---------------------------------------------------------------------------------------------------|:-------------------------------------------|
+| `Under Evaluation` | `episteme-pipeline` (`pipeline/protocols/extractors.py`, `pipeline/phases/phase4_argument_mining/`) | Ultra-Low Latency Inference & Flow Routing |
 
-Integrates TypeSafe's Jev as a non-generative, typed classification adapter across the pipeline's classification
-boundaries.
+Integrates TypeSafe's Jev as a non-generative, typed classification and decision-gating adapter across the pipeline.
 
-Unlike generative LLMs, Jev directly emits typed values, confidence scores, and calibrated probabilities with sub-second
+Unlike generative LLMs, Jev directly emits typed values and calibrated confidence scores (empirically reflecting true
+classification accuracy / ground-truth fit frequencies rather than uncalibrated LLM probabilities) with sub-second
 response times (70–500ms) at 40–200× lower cost and latency.
 
 **Key Capabilities & Milestones:**
@@ -223,6 +223,9 @@ response times (70–500ms) at 40–200× lower cost and latency.
 - **`JevARCClassifier`**: Defeasible relation stance classification (`SUPPORTS`, `ATTACKS`) bypassing heavy LLM prompt
   envelopes.
 - **`JevRelationReranker`**: Drop-in replacement for CrossEncoder relation scoring in Phase 3 Global Relations.
+- **AOP Decision Points & Dynamic Gating**: Intercepts pipeline flow (e.g., via aspect-oriented decorators) at critical
+  junctures—deciding whether to continue iterative reasoning, trigger gleaning passes, or route to specialized
+  components—using calibrated confidence thresholds to maximize speed and minimize token burn.
 - Evaluates throughput speedups and cost reductions on book-length corpora against frontier generative LLM baselines.
 
 ---

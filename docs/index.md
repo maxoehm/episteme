@@ -9,7 +9,7 @@ hide:
 
 # Episteme: Theory Graph Language Pipeline
 
-Welcome to the documentation for _grund.Episteme_, a cutting-edge pipeline for constructing theory graphs from scientific
+Welcome to the documentation for _Episteme_, a cutting-edge pipeline for constructing theory graphs from scientific
 literature.
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -18,9 +18,9 @@ literature.
 
 ---
 
-## What is T-Episteme?
+## What is Episteme?
 
-_grund.Episteme_ is a research library designed to construct **theory graphs**—structured representations of theoretical
+_Episteme_ is a research library designed to construct **theory graphs**—structured representations of theoretical
 frameworks—from academic texts in German and English. While designed for computational epistemologists, NLP researchers,
 and philosophers of science, the pipeline itself focuses on an agnostic and approach for knowledge graph construction
 and may serve different use cases as well.
@@ -55,12 +55,11 @@ The documentation is organized into six foundational pillars designed to serve r
 
     ---
 
-    Formal graph models ($\mathcal{G}_{\text{TheoryNet}}$), structuralist philosophy of science (*Wissenschaftstheorie*), and the PNAS Nexus publication.
+    Formal graph models ($\mathcal{G}_{\text{TheoryNet}}$) and structuralist philosophy of science (*Wissenschaftstheorie*).
 
     - [Conceptual Foundations](concepts/index.md){ data-preview }
     - [Formal Graph Model](concepts/formal_graph_model.md){ data-preview }
     - [Theory-Nets & Topologies](concepts/theory_nets_and_topologies.md){ data-preview }
-    - [PNAS Nexus Paper](../paper/index.md){ data-preview }
     - [Project & Research Roadmap](roadmap.md){ data-preview }
 
 -   :material-pillar:{ .lg .middle } __Architecture & Decisions__

@@ -6,7 +6,7 @@ The pipeline executes entirely on **durable, run-scoped research artifacts** and
 
 ---
 
-## 1. Purpose & Motivation
+## Purpose & Motivation
 
 In earlier iterations of the pipeline, intermediate outputs were transient Python objects passed directly in memory, and the Neo4j database was overloaded as both execution state tracker and target knowledge graph.
 
@@ -24,7 +24,7 @@ The artifact and run model solves this by establishing two decoupled architectur
 
 ---
 
-## 2. Core Architecture
+## Core Architecture
 
 ```mermaid
 flowchart TD
@@ -56,11 +56,11 @@ flowchart TD
 
 ---
 
-## 3. The Run Model
+## The Run Model
 
 Located in `pipeline/runs/models.py` and persisted via `pipeline/runs/persistence.py`.
 
-### 3.1 `RunManifest`
+### `RunManifest`
 
 The `RunManifest` is the central execution record for a pipeline run:
 
@@ -74,7 +74,7 @@ The `RunManifest` is the central execution record for a pipeline run:
 - **`method_fingerprints`**: Fine-grained fingerprints of models, extractors, and prompts used by each phase (e.g., LLM parameters, embedding model dimensions, and prompt bundles).
 - **`phase_records`**: List of `RunPhaseRecord` tracking execution status and artifact outputs per phase.
 
-### 3.2 `RunPhaseRecord`
+### `RunPhaseRecord`
 
 Tracks execution state for an individual phase:
 
@@ -86,7 +86,7 @@ Tracks execution state for an individual phase:
 - `output_fingerprint`: Stable hash of the emitted artifact collection.
 - `reused`: Boolean flag indicating whether the phase was reused from a prior run.
 
-### 3.3 `RunReport`
+### `RunReport`
 
 At run completion, a `RunReport` is generated summarizing:
 
@@ -98,11 +98,11 @@ At run completion, a `RunReport` is generated summarizing:
 
 ---
 
-## 4. The Artifact Model
+## The Artifact Model
 
 Located in `pipeline/artifacts/models.py` and persisted via `pipeline/artifacts/store.py`.
 
-### 4.1 `ArtifactEnvelope[T]`
+### `ArtifactEnvelope[T]`
 
 Every artifact emitted by the pipeline is wrapped in a generic `ArtifactEnvelope[T]`:
 
@@ -130,7 +130,7 @@ Every artifact carries two complementary identifiers:
 1. **`artifact_id`** (`artifact::<uuid>`): Unique identifier representing the specific artifact instance in a particular run. Used in `provenance.upstream_artifact_ids` to track concrete data lineage.
 2. **`identity_key`** (`<kind>::<canonical_identifier>`): Stable semantic identity across runs (e.g., `linked_entity::kant_crp_space`). Used by the invalidation DAG and cross-run comparison tools to correlate equivalent entities across parameter changes.
 
-### 4.2 Payload Families
+### Payload Families
 
 The pipeline defines typed payloads for each construction stage:
 
@@ -150,15 +150,15 @@ The pipeline defines typed payloads for each construction stage:
 
 ---
 
-## 5. Execution & Inter-Phase Handoff
+## Execution & Inter-Phase Handoff
 
 Located in `pipeline/artifacts/execution.py`.
 
-### 5.1 `ArtifactCollection`
+### `ArtifactCollection`
 
 An `ArtifactCollection` is a typed container holding a list of `ArtifactEnvelope` instances. It provides filtering utilities such as `collection.of_kind(*kinds)`.
 
-### 5.2 Typed `ArtifactsView` Classes
+### Typed `ArtifactsView` Classes
 
 Phases consume upstream data through typed views. Rather than receiving untyped collections or raw database connections, each phase runner specifies an `input_view` class:
 
@@ -168,7 +168,7 @@ Phases consume upstream data through typed views. Rather than receiving untyped 
 - **`Phase4ArtifactsView`**: Provides `theory_atoms: list[TheoryAtom]` and `theory_relations: list[TheoryRelation]`. Consumed by Phase 5, Phase 6, and Theoretical Enrichment.
 - **`TheoreticalEnrichmentArtifactsView`**: Provides `enrichments: list[TheoreticalEnrichmentArtifact]`.
 
-### 5.3 Runner Interface
+### Runner Interface
 
 All pipeline phase runners implement the uniform async interface:
 
@@ -184,7 +184,7 @@ The orchestrator builds the appropriate view via `entry.input_view.from_collecti
 
 ---
 
-## 6. Graph Projection & Decoupling
+## Graph Projection & Decoupling
 
 Located in `pipeline/projection/artifact_projector.py` and `pipeline/projection/theorynet_projector.py`.
 
@@ -197,7 +197,7 @@ Execution is cleanly decoupled from graph storage:
    - **Property Graph Projection** (`ArtifactGraphProjector`): Projects artifact envelopes into concrete Neo4j nodes and relationships.
    - **TheoryNet Formalism Projection** (`TheoryNetProjector`): Projects Phase 4 artifacts into the formal mathematical $\mathcal{G}_{\text{TheoryNet}}$ structure, executing iterative QBAF gradual semantics.
 
-### 6.1 Artifact-to-Graph Projection Mapping
+### Artifact-to-Graph Projection Mapping
 
 `ArtifactGraphProjector` maps artifact payloads into the projection graph according to the following rules:
 
@@ -214,7 +214,7 @@ Execution is cleanly decoupled from graph storage:
 | `CanonicalizationArtifact` | Edge | `(:Entity)-[:SAME_AS]->(:Entity)` | `confidence: 1.0`, `source: "phase3b_consolidation"` |
 | `FusionDecisionArtifact` | *None* | `_NOT_PROJECTED` | Deliberately omitted; record of decision rather than graph mutation |
 
-### 6.2 Current Limitations & Roadmap
+### Current Limitations & Roadmap
 
 As the pipeline transitions fully toward an artifact-first runtime, the projection layer currently serves as an explicit bridge. The following enhancements are planned:
 
@@ -226,7 +226,7 @@ As the pipeline transitions fully toward an artifact-first runtime, the projecti
 
 ---
 
-## 7. Artifact Hydration & Parent-Run Lineage
+## Artifact Hydration & Parent-Run Lineage
 
 When a run is resumed via `resume_from_run()` or reuses phases via `_choose_reuse_source()`:
 
@@ -237,7 +237,7 @@ When a run is resumed via `resume_from_run()` or reuses phases via `_choose_reus
 
 ---
 
-## 8. Configuration Controls
+## Configuration Controls
 
 The artifact and run model is configured via `ExecutionConfig` in `pipeline/config.py`:
 
@@ -252,7 +252,7 @@ The artifact and run model is configured via `ExecutionConfig` in `pipeline/conf
 
 ---
 
-## 9. Related Documentation
+## Related Documentation
 
 - **Invalidation and Resumption**: [Invalidation and Resume](invalidation_and_resume.md)
 - **Runtime and Complexity**: [Pipeline Runtime Analysis](runtime_analysis.md)

@@ -1730,3 +1730,135 @@ div.mermaid > svg {
   max-width: 100% !important;
   height: auto !important;
 }
+
+/* ==========================================================================
+   9. Research Horizons & Trajectory Stream (Compact Boxless Timestream)
+   ========================================================================== */
+.glp-trajectory-section {
+  padding: 3.5rem 6vw 4rem 6vw;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.glp-trajectory-stream {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.25rem;
+  position: relative;
+  margin-bottom: 2.25rem;
+}
+
+.glp-trajectory-step {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.glp-trajectory-step__marker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.glp-trajectory-step__num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+  letter-spacing: 0.04em;
+}
+
+.glp-trajectory-step__line {
+  flex-grow: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.glp-trajectory-step:last-child .glp-trajectory-step__line {
+  background: linear-gradient(90deg, #e2e8f0, transparent);
+}
+
+.glp-trajectory-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.glp-trajectory-item__title {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.45rem 0;
+  line-height: 1.35;
+}
+
+.glp-trajectory-item__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0 0 0.85rem 0;
+}
+
+.glp-trajectory-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.glp-trajectory-item__meta .glp-sep {
+  color: #cbd5e1;
+  font-size: 0.65rem;
+}
+
+.glp-trajectory-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.5rem;
+}
+
+.glp-btn--trajectory {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 6px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #0f172a !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.15s ease;
+}
+
+.glp-btn--trajectory:hover {
+  background: #ffffff;
+  border-color: #2563eb;
+  color: #2563eb !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+}
+
+@media (max-width: 900px) {
+  .glp-trajectory-stream {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .glp-trajectory-step__line {
+    display: none;
+  }
+}
+

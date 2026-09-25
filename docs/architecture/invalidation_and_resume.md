@@ -6,7 +6,7 @@ The pipeline combines **deterministic run-manifest fingerprinting** for pre-exec
 
 ---
 
-## 1. Architectural Overview
+## Architectural Overview
 
 Invalidation operates across two distinct, complementary layers:
 
@@ -46,7 +46,7 @@ flowchart TD
 
 ---
 
-## 2. Run Modes
+## Run Modes
 
 The pipeline provides three execution and resumption entry points in `pipeline/pipeline.py`:
 
@@ -66,7 +66,7 @@ async def run(
 - Hydrates upstream artifacts from the prior run lineage for all reused phases.
 - Starts execution at the first invalidated phase ordinal.
 
-### 2.2 Explicit Boundary Resumption (`Pipeline.run_from_phase`)
+### Explicit Boundary Resumption (`Pipeline.run_from_phase`)
 
 ```python
 async def run_from_phase(
@@ -82,7 +82,7 @@ async def run_from_phase(
 - Recovers input source paths from the prior manifest if `input` is omitted.
 - Phases prior to `phase_number` are reused if completed in the prior manifest; phases from `phase_number` onward are re-executed.
 
-### 2.3 Resumption from a Specific Run (`Pipeline.resume_from_run`)
+### Resumption from a Specific Run (`Pipeline.resume_from_run`)
 
 ```python
 async def resume_from_run(
@@ -99,22 +99,22 @@ async def resume_from_run(
 
 ---
 
-## 3. Fingerprint System
+## Fingerprint System
 
 Fingerprints are deterministic SHA-256 hashes generated via `pipeline/runs/fingerprints.py`:
 
-### 3.1 Source and Input Fingerprints
+### Source and Input Fingerprints
 
 - **Corpus Files**: Computed by `fingerprint_existing_sources()`. Combines filesystem stat metadata (file size, modification time) with full SHA-256 content hashes of all corpus source and bibtex files.
 - **Structural Anchors**: `fingerprint_structural_anchor()` hashes chapter/section structural metadata when provided.
 - **Input Fingerprint**: Combined hash `stable_fingerprint({"source": source_fp, "anchor": anchor_fp})`. Any change in corpus content invalidates the entire pipeline from Phase 1 onward.
 
-### 3.2 Phase-Config Fingerprints
+### Phase-Config Fingerprints
 
 - Serialized configuration hashes for each phase (`fingerprint_phase_config()`).
 - **Fine-Grained Nested Configs**: `fingerprint_phase_config_nested()` traverses Pydantic phase configurations and generates per-leaf fingerprints under `config.<field>` keys (e.g., `config.chunk_size`, `config.ner_prompt_template`). This detects changed leaves individually while preserving unchanged ones.
 
-### 3.3 Method and Model Fingerprints
+### Method and Model Fingerprints
 
 `fingerprint_method()` captures fine-grained parameters for LLMs and embedding models:
 - Model class and identifier (`model_name`).
@@ -123,19 +123,19 @@ Fingerprints are deterministic SHA-256 hashes generated via `pipeline/runs/finge
 - Embedding-specific configuration (`dimensions`, `embedding_api_version`).
 - Arbitrary model keyword arguments (`model_kwargs`).
 
-### 3.4 Prompt Template Fingerprints
+### Prompt Template Fingerprints
 
 - All 7 prompt task categories (across NER extraction, entity linking, global relations, entity synthesis, ADU segmentation, ACC classification, and ARC classification) are fingerprinted per run.
 - Fingerprints are partitioned by the phase that actually consumes the prompt, preventing prompt changes in later phases (e.g., ADU segmentation in Phase 4) from invalidating Phase 1 ingestion.
 - Because prompt templates are configured as part of each phase's `StructuredPromptBundle` inside `PhaseNConfig`, prompt updates are automatically tracked via both `phase_config_fingerprints` and `prompts_fingerprints`.
 
-### 3.5 Schema Version
+### Schema Version
 
 - `RunManifest.schema_version` tracks the ontology version from `SchemaConfig.version`. Changes in taxonomy or schema definitions trigger re-execution of extraction and fusion phases.
 
 ---
 
-## 4. Phase Invalidation Logic (`_choose_reuse_source`)
+## Phase Invalidation Logic (`_choose_reuse_source`)
 
 When `Pipeline.run()` is invoked with phase reuse enabled (`config.execution.allow_phase_reuse = True`):
 
@@ -158,13 +158,13 @@ When `Pipeline.run()` is invoked with phase reuse enabled (`config.execution.all
 
 ---
 
-## 5. Artifact Dependency Graph Diffing (`ArtifactDependencyGraph`)
+## Artifact Dependency Graph Diffing (`ArtifactDependencyGraph`)
 
 Located in `pipeline/artifacts/invalidate.py`.
 
 While phase reuse decisions must be made *before* a run executes, fine-grained artifact comparison operates across completed runs to analyze the exact downstream impact of parameter changes.
 
-### 5.1 Dual-Key Graph Representation
+### Dual-Key Graph Representation
 
 Artifacts carry two complementary identifiers:
 - `artifact_id` (`artifact::<uuid>`): Concrete artifact instance identifier used in `provenance.upstream_artifact_ids`.
@@ -172,11 +172,11 @@ Artifacts carry two complementary identifiers:
 
 `ArtifactDependencyGraph` resolves raw `artifact_id` provenance references into stable `identity_key` edges, producing a clean DAG where nodes and adjacency maps share the same semantic key space.
 
-### 5.2 Topological Sorting & Cycle Detection
+### Topological Sorting & Cycle Detection
 
 `dag.topsort()` implements Kahn's algorithm over `identity_key` nodes, establishing the dependency ordering and validating that no cyclical dependencies exist in artifact provenance.
 
-### 5.3 Staleness Detection (`find_stale_nodes`)
+### Staleness Detection (`find_stale_nodes`)
 
 `find_stale_nodes()` evaluates an `ArtifactDependencyGraph` against prior run artifacts and fingerprints:
 
@@ -186,7 +186,7 @@ A node is marked **stale** if:
 3. **Structural Divergence**: Its upstream dependency edge set changed (`_compare_dag_structures()`), even if the content hash coincided.
 4. **Transitive Staleness**: It depends directly or indirectly on any stale node (propagated breadth-first through downstream edges).
 
-### 5.4 Diagnostic Diffing (`Pipeline.diff_artifacts`)
+### Diagnostic Diffing (`Pipeline.diff_artifacts`)
 
 The pipeline exposes `diff_artifacts(run_id, baseline_run_id) -> dict[str, list[str]]`, which groups stale `identity_key`s by phase name. This allows researchers to:
 - Trace the exact downstream ripple effects of prompt or parameter adjustments.
@@ -195,7 +195,7 @@ The pipeline exposes `diff_artifacts(run_id, baseline_run_id) -> dict[str, list[
 
 ---
  
-## 6. Open Architecture Enhancements
+## Open Architecture Enhancements
 
 As tracked in the [Project & Research Roadmap](../roadmap.md):
 
@@ -204,7 +204,7 @@ As tracked in the [Project & Research Roadmap](../roadmap.md):
 
 ---
 
-## 7. Related Documentation
+## Related Documentation
 
 - **Artifact and Run Model**: [Artifact and Run Model](artifact_run_model.md)
 - **Runtime and Complexity**: [Pipeline Runtime Analysis](runtime_analysis.md)

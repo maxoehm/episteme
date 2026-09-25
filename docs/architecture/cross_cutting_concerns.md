@@ -18,7 +18,7 @@ Prompts, Caching, and Logging) in the `episteme-pipeline` without overcomplicati
 
 ---
 
-## 1. Events & Observability (`pipeline/events`)
+## Events & Observability (`pipeline/events`)
 
 ### Design Pattern: Task-Local Context (`contextvars`)
 
@@ -54,7 +54,7 @@ get_event_emitter().emit(TripleCommitted(subject_id=..., predicate=..., object_i
 
 ---
 
-## 2. Prompt Management (`pipeline/prompts` & `pipeline/config.py`)
+## Prompt Management (`pipeline/prompts` & `pipeline/config.py`)
 
 ### Design Pattern: Unified `StructuredPromptBundle` via Constructor Injection
 
@@ -97,7 +97,7 @@ class LLMNERExtractor(NERExtractor):
 
 ---
 
-## 3. LLM Caching (`pipeline/llm/cache.py`)
+## LLM Caching (`pipeline/llm/cache.py`)
 
 ### Design Pattern: Decorator / Adapter Wrapping
 
@@ -113,7 +113,7 @@ cached_llm = DiskCachedStructuredLLM(llm_adapter)
 
 ---
 
-## 4. Logging
+## Logging
 
 ### Design Pattern: Module-Level Standard Loggers
 
