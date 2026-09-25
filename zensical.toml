@@ -151,7 +151,12 @@ nav = [
         { "Publications & Agenda" = [
             { "Project & Research Roadmap" = "roadmap.md" },
             { "Future Research Agenda" = "research/future_research_goals.md" }
-        ] }
+        ] },
+        { "Research Artifacts" = [
+            { "Constrained Decoding Problem" =  "research/constrained_decoding.md"}
+        ]
+
+        }
     ] },
 
     # Pillar 5: The Architect (Macro/Micro System Design, Invalidation, Runtime Analysis, Complete ADR Suite)
@@ -159,7 +164,6 @@ nav = [
         { "System Design" = [
             { "Architecture Overview" = "architecture/overview.md" },
             { "Pipeline Architecture" = "architecture/pipeline_architecture.md" },
-            { "Graph Projection Layer" = "architecture/graph_projection_layer.md" },
             { "Artifact Run Model" = "architecture/artifact_run_model.md" },
             { "Invalidation & Resume Graph" = "architecture/invalidation_and_resume.md" },
             { "Constrained Decoding Engine" = "architecture/constrained_decoding.md" },
