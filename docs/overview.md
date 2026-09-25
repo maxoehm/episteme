@@ -5,7 +5,7 @@ description: SOTA theory graph construction and evaluation platform for scientif
 
 # T-Episteme: Theory Graph Language Pipeline
 
-Welcome to the documentation for _grund.Episteme_, a cutting-edge pipeline for constructing theory graphs from scientific
+Welcome to the documentation for _Episteme_, a cutting-edge pipeline for constructing theory graphs from scientific
 literature.
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -16,7 +16,7 @@ literature.
 
 ## What is T-Episteme?
 
-_grund.Episteme_ is a research library designed to construct **theory graphs**—structured representations of theoretical
+_Episteme_ is a research library designed to construct **theory graphs**—structured representations of theoretical
 frameworks—from academic texts in German and English. While designed for computational epistemologists, NLP researchers,
 and philosophers of science, the pipeline itself focuses on an agnostic and approach for knowledge graph construction
 and may serve different use cases as well.
