@@ -7,15 +7,14 @@ to the epistemetrics analytical library.
 from __future__ import annotations
 
 import logging
-from typing import Optional
 import epistemetrics as em
-from episteme_pipeline.graph.neo4j_store import Neo4jGraphReader
+from episteme_pipeline.protocols.graph_store import GraphReader
 
 logger = logging.getLogger(__name__)
 
 
 async def export_neo4j_to_theory_graph(
-    reader: Neo4jGraphReader,
+    reader: GraphReader,
     name: str = "Neo4jTheoryGraph",
     include_l2: bool = True,
     include_l3: bool = True,
@@ -24,7 +23,7 @@ async def export_neo4j_to_theory_graph(
 
     Parameters
     ----------
-    reader : Neo4jGraphReader
+    reader : GraphReader
         Connected Neo4j graph reader handle.
     name : str, optional
         Name of the created TheoryGraph (default: "Neo4jTheoryGraph").
@@ -44,7 +43,6 @@ async def export_neo4j_to_theory_graph(
         try:
             entities = await reader.get_entities()
             for ent in entities:
-                # Map label to NodeType
                 node_type = em.NodeType.from_str(ent.label)
                 epistemic_status = em.EpistemicStatus.NEUTRAL
                 if ent.label.upper() in {"AXIOM", "CORE_THEORY", "FOUNDATION"}:

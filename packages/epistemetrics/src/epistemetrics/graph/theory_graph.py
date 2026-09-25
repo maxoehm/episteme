@@ -196,6 +196,20 @@ class TheoryGraph:
             attributes=merged_attrs,
         )
 
+        nx_attrs = {
+            k: v
+            for k, v in merged_attrs.items()
+            if k
+            not in {
+                "name",
+                "type",
+                "node_type",
+                "epistemic_status",
+                "confidence",
+                "description",
+                "provenance",
+            }
+        }
         self._nodes[node_id] = node
         self._nx_graph.add_node(
             node_id,
@@ -206,7 +220,7 @@ class TheoryGraph:
             confidence=confidence,
             description=description,
             provenance=resolved_prov,
-            **merged_attrs,
+            **nx_attrs,
         )
         return node
 
@@ -273,6 +287,18 @@ class TheoryGraph:
         )
 
         self._edges.append(edge)
+        nx_edge_attrs = {
+            k: v
+            for k, v in merged_attrs.items()
+            if k
+            not in {
+                "relation_type",
+                "type",
+                "confidence",
+                "weight",
+                "polarity",
+            }
+        }
         self._nx_graph.add_edge(
             source,
             target,
@@ -281,7 +307,7 @@ class TheoryGraph:
             confidence=confidence,
             weight=weight,
             polarity=resolved_polarity,
-            **merged_attrs,
+            **nx_edge_attrs,
         )
         return edge
 
