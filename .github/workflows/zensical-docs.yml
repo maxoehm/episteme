@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'docs/**'
+      - 'overrides/**'
+      - 'zensical.toml'
+      - 'packages/**'
+      - '!packages/episteme-studio/frontend/**'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - '.github/workflows/zensical-docs.yml'
   workflow_dispatch:
 
 permissions:
