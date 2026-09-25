@@ -118,7 +118,7 @@ Every empirical node contains a `Episteme:textAnchor` object establishing direct
 ```
 
 The complete machine-readable specification and sample graph for Classical Particle Mechanics is maintained in [
-`packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld`](packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld).
+`packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld`](packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld).
 
 ---
 
@@ -272,13 +272,15 @@ STNB interfaces directly with Episteme's native evaluation subsystem ([
 ### Benchmark Adapter
 
 The dedicated adapter [
-`packages/episteme-pipeline/evaluation/adapters/structuralist.py`](packages/episteme-pipeline/evaluation/adapters/structuralist.py)
+`packages/episteme-pipeline/episteme_pipeline/evaluation/benchmarks/structuralist.py`](packages/episteme-pipeline/episteme_pipeline/evaluation/benchmarks/structuralist.py)
 normalizes STNB JSON-LD into pipeline input chunks and a gold-standard `nx.DiGraph`:
 
 ```python
-from pipeline.evaluation.adapters.structuralist import load_structuralist_benchmark
+from episteme_pipeline.evaluation.benchmarks.structuralist import load_structuralist_benchmark
 
-chunks, gold_graph = load_structuralist_benchmark("packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld")
+chunks, gold_graph = load_structuralist_benchmark(
+    "packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld"
+)
 ```
 
 ### Scoring Engine Matrix
@@ -286,9 +288,10 @@ chunks, gold_graph = load_structuralist_benchmark("packages/episteme-pipeline/ev
 | Layer / Metric               | Implementation Component                                                                                                        | Target Evaluated Property                                                                                                |
 |:-----------------------------|:--------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
 | **Intrinsic Model Component Decomposition ($G_{\text{pred}} \succeq_{\text{cap}} G_{\text{ref}}$)** | [`epistemetrics.evaluate_model_components`](packages/epistemetrics/src/epistemetrics/epistemic/model_evaluation.py) | Bourbaki structuralist model decomposition across $\mathcal{M}_p, \mathcal{M}, \mathcal{M}_{pp}, GC, I_0$. Zero-Omission ($AOR=0.0$), $MCC$, $PFS$, and $AG_{\text{IoU}}$ character span IoU. |
-| **GM-GBS (Graph BERTScore)** | [`scorers/gm_gbs.py`](packages/episteme-pipeline/evaluation/scorers/gm_gbs.py) | Soft semantic alignment on predicted axioms, law definitions, and specialization links ($\tau = 0.95$).                  |
-| **OEP (Optimal Edit Paths)** | [`scorers/oep.py`](packages/episteme-pipeline/evaluation/scorers/oep.py)       | Diagnoses **Hallucination Rate ($HR$)** (spurious theoretical claims) vs. **Omission Rate ($OR$)** (missed core axioms). |
-| **Epistemic Metrics Suite**  | [`packages/epistemetrics/`](packages/epistemetrics/)                      | Evaluates structural DAG properties, Modesty, Structural Elegance, System Coherence, and Tenability.                     |
+| **Model Scorer Bridge**      | [`ModelScorer`](packages/episteme-pipeline/episteme_pipeline/evaluation/scorers/model_scorer.py)                               | Bridges `epistemetrics` sovereign model component evaluation to pipeline `ArtifactCollection` and `TheoryNet`.          |
+| **GM-GBS (Graph BERTScore)** | [`GraphBERTScoreEvaluator`](packages/episteme-pipeline/episteme_pipeline/evaluation/scorers/gm_gbs.py)                           | Soft semantic alignment on predicted axioms, law definitions, and specialization links ($\tau = 0.95$).                  |
+| **OEP (Optimal Edit Paths)** | [`OptimalEditPathEvaluator`](packages/episteme-pipeline/episteme_pipeline/evaluation/scorers/oep.py)                            | Diagnoses **Hallucination Rate ($HR$)** (spurious theoretical claims) vs. **Omission Rate ($OR$)** (missed core axioms). |
+| **Epistemic Metrics Suite**  | [`packages/epistemetrics/`](packages/epistemetrics/)                                                                             | Evaluates structural DAG properties, Modesty, Structural Elegance, System Coherence, and Tenability.                     |
 
 ### In-Memory Sovereign Evaluation Workflow
 
@@ -327,10 +330,10 @@ print(result.to_markdown())
 
 ### CLI Execution
 
-Evaluation runs are executed deterministically through the harness orchestrator:
+Evaluation runs are executed deterministically through the consolidated harness orchestrator:
 
 ```bash
-rtk python packages/episteme-pipeline/evaluation/run_eval.py --manifest packages/episteme-pipeline/evaluation/manifests/eval_stnb.yaml
+rtk uv run python -m episteme_pipeline.evaluation.harness --manifest packages/episteme-pipeline/episteme_pipeline/evaluation/manifests/eval_stnb.yaml
 ```
 
 ---
@@ -342,10 +345,13 @@ rtk python packages/episteme-pipeline/evaluation/run_eval.py --manifest packages
 | **Structuralist Graph Taxonomy**   | `Implemented`  | Formal enums (`NodeType`, `EpistemicStatus`, `RelationType`) in [`packages/epistemetrics/core/models.py`](packages/epistemetrics/src/epistemetrics/core/models.py). |
 | **TheoryGraph Domain Model**       | `Implemented`  | NetworkX MultiDiGraph runtime container in [`packages/epistemetrics/graph/theory_graph.py`](packages/epistemetrics/src/epistemetrics/graph/theory_graph.py). |
 | **Intrinsic Model Component Evaluator** | `Implemented` | In-memory evaluation suite in [`packages/epistemetrics/epistemic/model_evaluation.py`](packages/epistemetrics/src/epistemetrics/epistemic/model_evaluation.py). |
-| **JSON-LD Schema Specification**   | `Planned`       | Formal contract verified in [`packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld`](packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld). |
-| **Structuralist Adapter Fixes**    | `In Progress`  | Edge decoding and array target normalization in [`packages/episteme-pipeline/evaluation/adapters/structuralist.py`](packages/episteme-pipeline/evaluation/adapters/structuralist.py). |
-| **CPM Pilot Corpus (Principia)**   | `Planned`      | Newton *Principia* Book 1 Axioms and Propositions annotated.                                                                                                                                                    |
-| **Multi-Theory Inter-Net Harness** | `Planned / Research Track` | Cross-theory registry for automated $T$-theoreticity and reduction link resolution.                                                                                                                             |
+| **JSON-LD Schema Specification**   | `Implemented`  | Formal contract verified in [`packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld`](packages/episteme-pipeline/episteme_pipeline/evaluation/data/stnb_cpm_pilot.jsonld). |
+| **Structuralist Adapter Fixes**    | `Implemented`  | Edge decoding, array targets, resilient anchors, and poset orientation in [`packages/episteme-pipeline/episteme_pipeline/evaluation/benchmarks/structuralist.py`](packages/episteme-pipeline/episteme_pipeline/evaluation/benchmarks/structuralist.py). |
+| **CPM Pilot Corpus (Principia)**   | `Implemented`  | Newton *Principia* Book 1 Axioms, Laws, and Corollaries in [`packages/episteme-pipeline/episteme_pipeline/evaluation/data/newton_principia_1687.txt`](packages/episteme-pipeline/episteme_pipeline/evaluation/data/newton_principia_1687.txt). |
+| **Consolidated In-Memory Harness** | `Implemented`  | `EvaluationHarness` & in-memory pipeline runners in [`packages/episteme-pipeline/episteme_pipeline/evaluation/`](packages/episteme-pipeline/episteme_pipeline/evaluation/). |
+| **Specialization Poset Verification** | `Planned (ISSUE-031)` | Specialization DAG acyclicity, root conformity, and model inheritance verification.                                                                                                                              |
+| **Competency Query Testbed**       | `Planned (ISSUE-032)` | Extrinsic scientific retrieval testbed for STNB with domain query suites.                                                                                                                                       |
+| **Multi-Theory Inter-Net Harness** | `Planned (ISSUE-033)` | Comparative baselines (Zero-Shot LLM, Naive KG, Text RAG) across multiple theory elements.                                                                                                                      |
 
 ---
 

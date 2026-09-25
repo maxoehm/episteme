@@ -1,21 +1,24 @@
+"""Baseline dataset export and ingestion utilities for human-in-the-loop curation."""
+
 from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from episteme_pipeline.contracts.domain import L2Entity, L2Triple, TheoryAtom, TheoryRelation
 from episteme_pipeline.protocols.graph_store import GraphReader
 
 
-async def export_baseline(graph_reader: GraphReader, output_path: str) -> None:
+async def export_baseline(graph_reader: GraphReader, output_path: str | Path) -> None:
     """Export a completed pipeline run into a JSON file for manual correction.
 
     Parameters
     ----------
     graph_reader : GraphReader
         Reader instance connected to the populated graph store.
-    output_path : str
+    output_path : str or Path
         File path where the JSON baseline dataset will be written.
     """
     entities = await graph_reader.get_entities()
@@ -28,7 +31,7 @@ async def export_baseline(graph_reader: GraphReader, output_path: str) -> None:
             "exported_at": datetime.now(timezone.utc).isoformat(),
             "dataset_type": "baseline",
             "status": "uncorrected",
-            "instructions": "Review and correct entries. Change status to 'gold' when done."
+            "instructions": "Review and correct entries. Change status to 'gold' when done.",
         },
         "l2_entities": [entity.model_dump() for entity in entities],
         "l2_triples": [triple.model_dump() for triple in triples],
@@ -36,22 +39,24 @@ async def export_baseline(graph_reader: GraphReader, output_path: str) -> None:
         "l3_relations": [relation.model_dump() for relation in relations],
     }
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    out = Path(output_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def load_gold_standard(path: str) -> dict[str, Any]:
+def load_gold_standard(path: str | Path) -> dict[str, Any]:
     """Load and validate a gold standard dataset from a JSON file.
 
     Parameters
     ----------
-    path : str
+    path : str or Path
         Path to the JSON file containing the dataset.
 
     Returns
     -------
     dict[str, Any]
-        A dictionary containing the dataset metadata and validated domain objects.
+        A dictionary containing dataset metadata and validated domain objects.
     """
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
