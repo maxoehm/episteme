@@ -27,6 +27,7 @@ from episteme_pipeline.evaluation.extrinsic import (
 from episteme_pipeline.evaluation.intrinsic import (
     calculate_graph_bertscore,
     calculate_oep_rates,
+    evaluate_theory_graph_components,
 )
 from episteme_pipeline.evaluation.models import (
     DatasetType,
@@ -59,6 +60,7 @@ __all__ = [
     # intrinsic
     "calculate_graph_bertscore",
     "calculate_oep_rates",
+    "evaluate_theory_graph_components",
     # models
     "DatasetType",
     "EvaluationErrorBucket",

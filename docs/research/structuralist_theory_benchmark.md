@@ -285,9 +285,45 @@ chunks, gold_graph = load_structuralist_benchmark("packages/episteme-pipeline/ev
 
 | Layer / Metric               | Implementation Component                                                                                                        | Target Evaluated Property                                                                                                |
 |:-----------------------------|:--------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
+| **Intrinsic Model Component Decomposition ($G_{\text{pred}} \succeq_{\text{cap}} G_{\text{ref}}$)** | [`epistemetrics.evaluate_model_components`](packages/epistemetrics/src/epistemetrics/epistemic/model_evaluation.py) | Bourbaki structuralist model decomposition across $\mathcal{M}_p, \mathcal{M}, \mathcal{M}_{pp}, GC, I_0$. Zero-Omission ($AOR=0.0$), $MCC$, $PFS$, and $AG_{\text{IoU}}$ character span IoU. |
 | **GM-GBS (Graph BERTScore)** | [`scorers/gm_gbs.py`](packages/episteme-pipeline/evaluation/scorers/gm_gbs.py) | Soft semantic alignment on predicted axioms, law definitions, and specialization links ($\tau = 0.95$).                  |
 | **OEP (Optimal Edit Paths)** | [`scorers/oep.py`](packages/episteme-pipeline/evaluation/scorers/oep.py)       | Diagnoses **Hallucination Rate ($HR$)** (spurious theoretical claims) vs. **Omission Rate ($OR$)** (missed core axioms). |
 | **Epistemic Metrics Suite**  | [`packages/epistemetrics/`](packages/epistemetrics/)                      | Evaluates structural DAG properties, Modesty, Structural Elegance, System Coherence, and Tenability.                     |
+
+### In-Memory Sovereign Evaluation Workflow
+
+Intrinsic model evaluation executes purely in memory via NetworkX-backed sovereign containers without requiring a running Neo4j database:
+
+```python
+import epistemetrics as em
+from epistemetrics.epistemic import evaluate_model_components
+
+# Construct or load theory graphs
+pred_graph = em.TheoryGraph(name="PredictedCPM")
+gold_graph = em.TheoryGraph(name="GoldCPM")
+
+# Evaluate capability subsumption (G_pred >=cap G_ref)
+result = evaluate_model_components(pred_graph, gold_graph, min_mcc=1.0, min_pfs=0.8)
+
+print(f"Subsumes Capabilities: {result.is_subsumed}")
+print(f"Model Component Completeness (MCC): {result.mcc:.4f}")
+print(f"Axiomatic Omission Rate (AOR): {result.aor:.4f}")
+print(f"Property Fidelity Score (PFS): {result.pfs:.4f}")
+print(f"Text Anchor IoU: {result.ag_iou:.4f}")
+print(result.to_markdown())
+```
+
+### Quantitative Metrics Formulation
+
+1. **Model Component Completeness ($MCC$):**
+   $$\text{MCC}(T) = \frac{|\mathcal{M}_{p, \text{matched}}| + |\mathcal{M}_{\text{matched}}| + |\mathcal{M}_{pp, \text{matched}}| + |GC_{\text{matched}}| + |I_{0, \text{matched}}|}{|\text{Total Reference Components}(T)|}$$
+2. **Axiomatic Omission Rate ($AOR$):**
+   $$AOR = \frac{| \mathcal{M}_{\text{ref}} \setminus \mathcal{M}_{\text{pred, matched}} |}{| \mathcal{M}_{\text{ref}} |}$$
+   *Capability Criterion:* Strict $AOR = 0.0$ (Zero-Omission of foundational substantive laws).
+3. **Property Fidelity Score ($PFS$):**
+   Macro average across node types, epistemic stances, edge semantics, weights, and polarities.
+4. **Text Anchor Grounding IoU ($AG_{\text{IoU}}$):**
+   Average character span Intersection over Union ($\text{IoU} = \frac{|S_{\text{pred}} \cap S_{\text{ref}}|}{|S_{\text{pred}} \cup S_{\text{ref}}|}$) across empirical nodes.
 
 ### CLI Execution
 
@@ -302,12 +338,13 @@ rtk python packages/episteme-pipeline/evaluation/run_eval.py --manifest packages
 ## Implementation Status & Pilot Roadmap
 
 | Component                          | Status                       | Deliverable & Location                                                                                                                                                                                          |
-|:-----------------------------------|:-----------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Structuralist Graph Taxonomy**   | `Planned`       | Fully aligned with [`docs/concepts/theory_nets_and_topologies.md`](../concepts/theory_nets_and_topologies.md).                                                                                                  |
+|:-------------------|:-------------------|:-----------------------------------|
+| **Structuralist Graph Taxonomy**   | `Implemented`  | Formal enums (`NodeType`, `EpistemicStatus`, `RelationType`) in [`packages/epistemetrics/core/models.py`](packages/epistemetrics/src/epistemetrics/core/models.py). |
+| **TheoryGraph Domain Model**       | `Implemented`  | NetworkX MultiDiGraph runtime container in [`packages/epistemetrics/graph/theory_graph.py`](packages/epistemetrics/src/epistemetrics/graph/theory_graph.py). |
+| **Intrinsic Model Component Evaluator** | `Implemented` | In-memory evaluation suite in [`packages/epistemetrics/epistemic/model_evaluation.py`](packages/epistemetrics/src/epistemetrics/epistemic/model_evaluation.py). |
 | **JSON-LD Schema Specification**   | `Planned`       | Formal contract verified in [`packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld`](packages/episteme-pipeline/evaluation/data/stnb_cpm_pilot.jsonld). |
-| **Structuralist Adapter**          | `Planned`     | [`packages/episteme-pipeline/evaluation/adapters/structuralist.py`](packages/episteme-pipeline/evaluation/adapters/structuralist.py).                               |
-| **CPM Pilot Corpus (Principia)**   | `Planned`           | Newton *Principia* Book 1 Axioms and Propositions annotated.                                                                                                                                                    |
-| **Scorer Pipeline Integration**    | `Planned`      | Wired into `GraphBERTScoreEvaluator`, `OEPScoreEvaluator`, and `epistemetrics`.                                                                                                                                 |
+| **Structuralist Adapter Fixes**    | `In Progress`  | Edge decoding and array target normalization in [`packages/episteme-pipeline/evaluation/adapters/structuralist.py`](packages/episteme-pipeline/evaluation/adapters/structuralist.py). |
+| **CPM Pilot Corpus (Principia)**   | `Planned`      | Newton *Principia* Book 1 Axioms and Propositions annotated.                                                                                                                                                    |
 | **Multi-Theory Inter-Net Harness** | `Planned / Research Track` | Cross-theory registry for automated $T$-theoreticity and reduction link resolution.                                                                                                                             |
 
 ---

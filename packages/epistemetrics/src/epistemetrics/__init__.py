@@ -1,5 +1,4 @@
-"""
-Epistemetrics: Formal Theory Graph Evaluation and Epistemic Metrics.
+"""Epistemetrics: Formal Theory Graph Evaluation and Epistemic Metrics.
 
 A sovereign Python library for structural, argumentation, and epistemic
 evaluation of scientific theory graphs.
@@ -7,6 +6,10 @@ evaluation of scientific theory graphs.
 
 from __future__ import annotations
 
+from epistemetrics.analysis import (
+    EpistemicReport,
+    analyze_theory_graph,
+)
 from epistemetrics.core.exceptions import (
     AdapterError,
     AlgorithmConvergenceError,
@@ -21,7 +24,16 @@ from epistemetrics.core.exceptions import (
 from epistemetrics.core.models import (
     AlgorithmExecutionMode,
     CentralityResult,
+    EpistemicStatus,
+    NodeType,
     PartitionResult,
+    RelationType,
+    TheoryEdge,
+    TheoryNode,
+)
+from epistemetrics.epistemic import (
+    ModelComponentEvaluationResult,
+    evaluate_model_components,
 )
 from epistemetrics.graph.algorithms import (
     AdaptiveAlgorithmsEngine,
@@ -33,10 +45,23 @@ from epistemetrics.graph.algorithms import (
     page_rank,
     weakly_connected_components,
 )
+from epistemetrics.graph.theory_graph import TheoryGraph
 
 __version__ = "0.1.0"
 
 __all__ = [
+    # Core domain graph and analysis
+    "TheoryGraph",
+    "TheoryNode",
+    "TheoryEdge",
+    "NodeType",
+    "EpistemicStatus",
+    "RelationType",
+    "analyze_theory_graph",
+    "EpistemicReport",
+    # Epistemic model component evaluation
+    "ModelComponentEvaluationResult",
+    "evaluate_model_components",
     # Engines
     "AdaptiveAlgorithmsEngine",
     "GraphAlgorithmsEngine",
