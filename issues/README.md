@@ -21,7 +21,8 @@ issues/
 ├── 05-hitl-and-orchestration/                 # Human curation, staging & decision auditing
 ├── 06-discovery-and-querying/                 # Hybrid search, LBD Swanson linking & schema design
 ├── 07-evaluation-harness/                     # Benchmark integrity, alignment & hallucination scoring
-└── 08-pipeline-enhancements/                  # Macro community synthesis & chunking hygiene
+├── 08-pipeline-enhancements/                  # Macro community synthesis & chunking hygiene
+└── 09-stnb-evaluation-capabilities/           # STNB ground-truth, adapter, TheoryNet & baseline harness
 ```
 
 ---
@@ -47,11 +48,19 @@ issues/
 | [**ISSUE-015**](06-discovery-and-querying/ISSUE-015-literature-based-discovery-swanson-linking.md) | Literature-Based Discovery (Swanson $A$-$C$-$B$) | 06-Discovery & Query | `episteme-pipeline` / `episteme-studio` | Horizon 3 | Low | `Research` |
 | [**ISSUE-016**](06-discovery-and-querying/ISSUE-016-neutral-contradiction-management-workspace.md) | Neutral Contradiction Workspace ($\langle B, D, U \rangle$) | 06-Discovery & Query | `episteme-studio` / `episteme-pipeline` | Horizon 3 | Medium | `Research` |
 | [**ISSUE-017**](06-discovery-and-querying/ISSUE-017-visual-metamodel-and-schema-designer.md) | Visual Metamodel & Ontology Schema Designer | 06-Discovery & Query | `episteme-studio` / `episteme-pipeline` | Horizon 1 & 2 | Medium | `Open` |
-| [**ISSUE-018**](07-evaluation-harness/ISSUE-018-gm-gbs-entity-aware-graph-alignment.md) | Entity-Aware Graph BERTScore (GM-GBS) Evaluation | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | Critical | `Open` |
-| [**ISSUE-019**](07-evaluation-harness/ISSUE-019-oep-graph-edit-distance-and-hallucination-scoring.md) | Graph Edit Distance (OEP) & Hallucination Scoring | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | High | `Open` |
-| [**ISSUE-020**](07-evaluation-harness/ISSUE-020-extrinsic-retrieval-scorer-and-run-slice-isolation.md) | Extrinsic Retrieval Scorer Fix & Run Slice Isolation | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | Critical | `Open` |
-| [**ISSUE-021**](07-evaluation-harness/ISSUE-021-theorynet-layer3-evaluation-and-baselines.md) | TheoryNet (Layer 3) Benchmark Harness & Baseline Models | 07-Evaluation Harness | `episteme-pipeline` / `epistemetrics` | Horizon 2 | High | `Open` |
+| [**ISSUE-018**](07-evaluation-harness/ISSUE-018-gm-gbs-entity-aware-graph-alignment.md) | Entity-Aware Graph BERTScore (GM-GBS) Evaluation | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | Critical | `Superseded` |
+| [**ISSUE-019**](07-evaluation-harness/ISSUE-019-oep-graph-edit-distance-and-hallucination-scoring.md) | Graph Edit Distance (OEP) & Hallucination Scoring | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | High | `Superseded` |
+| [**ISSUE-020**](07-evaluation-harness/ISSUE-020-extrinsic-retrieval-scorer-and-run-slice-isolation.md) | Extrinsic Retrieval Scorer Fix & Run Slice Isolation | 07-Evaluation Harness | `episteme-pipeline` | Horizon 1 | Critical | `Superseded` |
+| [**ISSUE-021**](07-evaluation-harness/ISSUE-021-theorynet-layer3-evaluation-and-baselines.md) | TheoryNet (Layer 3) Benchmark Harness & Baseline Models | 07-Evaluation Harness | `episteme-pipeline` / `epistemetrics` | Horizon 2 | High | `Superseded` |
 | [**ISSUE-022**](08-pipeline-enhancements/ISSUE-022-hierarchical-leiden-community-summarization.md) | Hierarchical Leiden Community Summarization & Synthesis | 08-Pipeline Enhancements | `episteme-pipeline` | Horizon 2 | Medium | `Open` |
 | [**ISSUE-023**](08-pipeline-enhancements/ISSUE-023-chunker-tokenization-and-provenance-hygiene.md) | SemanticChunker Tokenization & Configurable Encodings | 08-Pipeline Enhancements | `episteme-pipeline` | Horizon 1 | Low | `Open` |
-| [**ISSUE-024**](07-evaluation-harness/ISSUE-024-scigraph-evaluation-methodology.md) | SciGraph Evaluation Methodology (Soft Matching & Querying) | 07-Evaluation Harness | `episteme-pipeline` / `epistemetrics` | Horizon 1 & 2 | High | `Open` |
+| [**ISSUE-024**](07-evaluation-harness/ISSUE-024-scigraph-evaluation-methodology.md) | SciGraph Evaluation Methodology (Soft Matching & Querying) | 07-Evaluation Harness | `episteme-pipeline` / `epistemetrics` | Horizon 1 & 2 | High | `Superseded` |
 | [**ISSUE-025**](03-epistemic-metrics/ISSUE-025-model-theoretic-plausibility-score.md) | Model-Theoretic Plausibility Score ($p$) on Edges | 03-Epistemic Metrics | `epistemetrics` / `episteme-pipeline` | Horizon 2 | Medium | `Open` |
+| [**ISSUE-026**](09-stnb-evaluation-capabilities/ISSUE-026-stnb-ground-truth-data-and-cpm-pilot.md) | STNB Ground-Truth Data Absence & Missing CPM Pilot Corpus | 09-STNB Capabilities | `episteme-pipeline` | Horizon 1 | Critical | `Open` |
+| [**ISSUE-027**](09-stnb-evaluation-capabilities/ISSUE-027-stnb-jsonld-adapter-and-edge-decoding.md) | STNB JSON-LD Adapter Schema Inconsistencies & Edge Decoding Bugs | 09-STNB Capabilities | `episteme-pipeline` | Horizon 1 | Critical | `Open` |
+| [**ISSUE-028**](09-stnb-evaluation-capabilities/ISSUE-028-evaluation-orchestrator-theorynet-execution.md) | Evaluation Packaging Consolidation & In-Memory TheoryNet Execution | 09-STNB Capabilities | `episteme-pipeline` | Horizon 1 | Critical | `Open` |
+| [**ISSUE-029**](09-stnb-evaluation-capabilities/ISSUE-029-epistemetrics-theorygraph-domain-architecture.md) | Missing `TheoryGraph` Domain Architecture & Broken Contract in `epistemetrics` | 09-STNB Capabilities | `epistemetrics` / `episteme-pipeline` | Horizon 1 | Critical | `Open` |
+| [**ISSUE-030**](09-stnb-evaluation-capabilities/ISSUE-030-intrinsic-model-component-and-property-evaluation.md) | Comprehensive Intrinsic Evaluation: Model Component Decomposition & Full Property Subsumption | 09-STNB Capabilities | `epistemetrics` / `episteme-pipeline` | Horizon 1 | Critical | `Open` |
+| [**ISSUE-031**](09-stnb-evaluation-capabilities/ISSUE-031-specialization-poset-and-epistemic-dynamics.md) | Specialization Poset Hierarchies ($\alpha$) & Theoretical Dynamics Verification | 09-STNB Capabilities | `epistemetrics` / `episteme-pipeline` | Horizon 1 & 2 | High | `Open` |
+| [**ISSUE-032**](09-stnb-evaluation-capabilities/ISSUE-032-extrinsic-retrieval-attribute-fix-and-competency-testbed.md) | Extrinsic Retrieval Scorer Attribute Crash & STNB Competency Testbed | 09-STNB Capabilities | `episteme-pipeline` | Horizon 1 | High | `Open` |
+| [**ISSUE-033**](09-stnb-evaluation-capabilities/ISSUE-033-comparative-baselines-zero-shot-naive-rag.md) | Comparative Baseline Harness for STNB (Zero-Shot LLM, Naive KG, Text RAG) | 09-STNB Capabilities | `episteme-pipeline` | Horizon 2 | High | `Open` |
