@@ -5,7 +5,7 @@ of each phase with respect to the size of the input document corpus and analyzes
 
 ---
 
-## 1. Complexity Variables
+## Complexity Variables
 
 * **$N$**: Total number of pages or raw input size.
 * **$C$**: Total number of text chunks (directly proportional to $N$, i.e., $C \propto N$).
@@ -20,7 +20,7 @@ of each phase with respect to the size of the input document corpus and analyzes
 
 ---
 
-## 2. Phase-by-Phase Asymptotic Complexity
+## Phase-by-Phase Asymptotic Complexity
 
 ### Complexity Summary Table
 
@@ -107,7 +107,7 @@ cross-encoder reranking, and LLM decoding.
 
 ---
 
-## 3. Intended vs. Observed Behavior
+## Intended vs. Observed Behavior
 
 ### The Intended Runtime Complexity
 
