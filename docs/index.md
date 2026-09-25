@@ -55,12 +55,11 @@ The documentation is organized into six foundational pillars designed to serve r
 
     ---
 
-    Formal graph models ($\mathcal{G}_{\text{TheoryNet}}$), structuralist philosophy of science (*Wissenschaftstheorie*), and the PNAS Nexus publication.
+    Formal graph models ($\mathcal{G}_{\text{TheoryNet}}$) and structuralist philosophy of science (*Wissenschaftstheorie*).
 
     - [Conceptual Foundations](concepts/index.md){ data-preview }
     - [Formal Graph Model](concepts/formal_graph_model.md){ data-preview }
     - [Theory-Nets & Topologies](concepts/theory_nets_and_topologies.md){ data-preview }
-    - [PNAS Nexus Paper](../paper/index.md){ data-preview }
     - [Project & Research Roadmap](roadmap.md){ data-preview }
 
 -   :material-pillar:{ .lg .middle } __Architecture & Decisions__
